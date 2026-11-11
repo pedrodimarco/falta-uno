@@ -1,4 +1,4 @@
-import type { MatchDetail } from "@busco/contracts";
+import type { MatchDetail } from "@falta-uno/contracts";
 export function MatchCapacity({ match }: { match: MatchDetail }) {
   const available = match.capacity - match.confirmed - match.reserved;
   return (

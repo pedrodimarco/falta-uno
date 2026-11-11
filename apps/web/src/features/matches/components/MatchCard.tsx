@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { MatchSummary } from "@busco/contracts";
+import type { MatchSummary } from "@falta-uno/contracts";
 import { formatMatchDate } from "../formatters";
 
 export function MatchCard({ match }: { match: MatchSummary }) {

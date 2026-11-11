@@ -1,4 +1,4 @@
-# Busco Player — primera versión
+# Falta uno — primera versión
 
 Estado: primera entrega local implementada. React + Express + TypeScript, persistencia SQLite y acceso por correo mediante enlaces de un solo uso, con buzón local de desarrollo. Ya existe el primer cliente React Native con Expo, conectado a la misma API. Ver README.md para ejecución y límites. PostgreSQL y la validación móvil en dispositivos siguen pendientes.
 

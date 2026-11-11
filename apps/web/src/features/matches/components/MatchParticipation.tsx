@@ -1,7 +1,7 @@
 import { OfferActions } from "./OfferActions";
 import { WaitlistActions } from "./WaitlistActions";
 import { useState } from "react";
-import type { MatchDetail } from "@busco/contracts";
+import type { MatchDetail } from "@falta-uno/contracts";
 import { LoginForm } from "../../session/components/LoginForm";
 import { ErrorNotice } from "../../../shared/components/ErrorNotice";
 

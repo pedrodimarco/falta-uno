@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { MatchDetail } from "@busco/contracts";
+import type { MatchDetail } from "@falta-uno/contracts";
 import { Body, Button, Label } from "../../../shared/components/ui";
 
 export function OfferActions({

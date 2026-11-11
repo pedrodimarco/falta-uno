@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import type { MatchInput } from "@busco/contracts";
+import type { MatchInput } from "@falta-uno/contracts";
 import { useSession } from "../features/session/useSession";
 import { useCreateMatch } from "../features/matches/hooks/useCreateMatch";
 import { LoginForm } from "../features/session/components/LoginForm";

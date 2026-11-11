@@ -1,4 +1,4 @@
-# Frontend de Busco Player
+# Frontend de Falta uno
 
 React y TypeScript. Se organiza por funcionalidades: los archivos específicos de partidos y sesión viven juntos. Las páginas componen la interfaz; los hooks manejan las operaciones asíncronas; los módulos de API conocen las rutas HTTP.
 
@@ -71,7 +71,7 @@ Para el detalle, empezar por `pages/MatchDetailPage.tsx`. El hook `useMatch` con
 
 - Componentes y páginas en PascalCase; hooks con prefijo `use`.
 - Un componente exportado por archivo; imports directos para seguir fácilmente las dependencias.
-- Los tipos de negocio vienen de `@busco/contracts`; no se duplican en el frontend.
+- Los tipos de negocio vienen de `@falta-uno/contracts`; no se duplican en el frontend.
 - Las páginas no hacen `fetch`. Los endpoints viven en el `api.ts` de su funcionalidad.
 - `shared` contiene solo código común, sin depender de páginas ni funcionalidades.
 - El contexto de sesión guarda identidad; los formularios y partidos mantienen su estado donde se utilizan.

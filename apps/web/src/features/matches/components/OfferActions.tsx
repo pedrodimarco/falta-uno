@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { MatchDetail } from "@busco/contracts";
+import type { MatchDetail } from "@falta-uno/contracts";
 interface Props {
   offer: NonNullable<MatchDetail["offer"]>;
   timeZone: string;

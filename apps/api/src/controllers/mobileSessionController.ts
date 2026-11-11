@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import { requestLoginInput, verifyMobileLoginInput } from "@busco/contracts";
+import { requestLoginInput, verifyMobileLoginInput } from "@falta-uno/contracts";
 import type { SessionUseCases } from "../services/interfaces/SessionUseCases.ts";
 import { readBearerToken } from "../security/sessionToken.ts";
 

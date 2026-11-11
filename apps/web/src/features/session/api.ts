@@ -1,4 +1,4 @@
-import type { SessionResponse, VerifyLoginResponse } from "@busco/contracts";
+import type { SessionResponse, VerifyLoginResponse } from "@falta-uno/contracts";
 import { http } from "../../shared/api/http";
 export const getSession = (signal?: AbortSignal) =>
   http<SessionResponse>("/session", { signal });

@@ -17,7 +17,7 @@ export default function RootLayout() {
             contentStyle: { backgroundColor: theme.colors.background },
           }}
         >
-          <Stack.Screen name="index" options={{ title: "Busco Player" }} />
+          <Stack.Screen name="index" options={{ title: "Falta uno" }} />
           <Stack.Screen name="ingresar" options={{ title: "Acceso" }} />
           <Stack.Screen
             name="partidos/nuevo"

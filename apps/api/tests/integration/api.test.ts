@@ -160,7 +160,7 @@ test("validación, enlaces inexistentes y origen ajeno", async () => {
   }
 });
 test("los datos y la identidad persisten al reabrir la base", async () => {
-  const directory = mkdtempSync(path.join(tmpdir(), "busco-test-"));
+  const directory = mkdtempSync(path.join(tmpdir(), "falta-uno-test-"));
   const filename = path.join(directory, "test.sqlite");
   let f = await fixture(filename);
   try {

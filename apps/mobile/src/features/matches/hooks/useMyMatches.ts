@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useFocusEffect } from "expo-router";
-import type { MatchSummary } from "@busco/contracts";
+import type { MatchSummary } from "@falta-uno/contracts";
 import { useSession } from "../../session/SessionContext";
 import { getMyMatches } from "../api";
 import { errorMessage } from "../../../shared/utils/errors";

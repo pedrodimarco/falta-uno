@@ -1,4 +1,4 @@
-import type { MatchDetail, MatchInput, MatchSummary } from "@busco/contracts";
+import type { MatchDetail, MatchInput, MatchSummary } from "@falta-uno/contracts";
 import { http } from "../../shared/api/http";
 
 export function getMyMatches(signal?: AbortSignal) {

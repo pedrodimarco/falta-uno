@@ -3,7 +3,7 @@ import {
   matchInput,
   type MatchDetail,
   type MatchSummary,
-} from "@busco/contracts";
+} from "@falta-uno/contracts";
 import type { MatchUseCases } from "../services/interfaces/MatchUseCases.ts";
 import { requirePerson } from "../middlewares/requestContext.ts";
 

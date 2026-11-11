@@ -1,4 +1,4 @@
-# Backend de Busco Player
+# Backend de Falta uno
 
 Node.js, Express y TypeScript, organizado en controllers, services y repositories. Las responsabilidades y las dependencias siguen separadas; `src/bootstrap.ts` conecta las implementaciones concretas.
 
@@ -90,7 +90,7 @@ El recorrido es **ruta → controller → service → repository**. El chequeo d
 
 ## Responsabilidades y dependencias
 
-- **Controllers:** validan el formato de entrada con `@busco/contracts`, llaman a los servicios mediante sus interfaces y devuelven respuestas. No ejecutan SQL.
+- **Controllers:** validan el formato de entrada con `@falta-uno/contracts`, llaman a los servicios mediante sus interfaces y devuelven respuestas. No ejecutan SQL.
 - **Services:** coordinan las operaciones. Reciben repositorios, transacciones, reloj, generador de IDs y proveedor de tokens mediante el constructor. No importan Express ni las implementaciones de SQLite.
 - **Repositories:** sus interfaces describen las operaciones que necesitan los servicios; las implementaciones SQLite contienen el SQL y el mapeo de filas. No deciden las reglas de cupos o cierre.
 - **Models y rules:** representan los datos y las reglas del negocio. No dependen de Express, SQLite ni Zod.

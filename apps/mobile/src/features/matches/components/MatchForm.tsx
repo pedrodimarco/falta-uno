@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Switch, View } from "react-native";
-import type { MatchDetail } from "@busco/contracts";
+import type { MatchDetail } from "@falta-uno/contracts";
 import {
   Body,
   Button,

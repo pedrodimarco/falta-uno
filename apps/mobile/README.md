@@ -1,6 +1,6 @@
-# Busco Player · React Native
+# Falta uno · React Native
 
-Primera aplicación móvil con **Expo SDK 57, React Native 0.86, React 19.2 y TypeScript**. Usa la API Express existente y los contratos de `@busco/contracts`. Android e iOS comparten las pantallas y las reglas del servidor.
+Primera aplicación móvil con **Expo SDK 57, React Native 0.86, React 19.2 y TypeScript**. Usa la API Express existente y los contratos de `@falta-uno/contracts`. Android e iOS comparten las pantallas y las reglas del servidor.
 
 ## Qué está conectado
 
@@ -13,7 +13,7 @@ Primera aplicación móvil con **Expo SDK 57, React Native 0.86, React 19.2 y Ty
 - Actualización cada 15 segundos con la pantalla enfocada y al volver del segundo plano.
 - Apertura de invitaciones pegando su enlace y compartir mediante la hoja nativa del sistema.
 
-No se envían correos reales: se mantiene el buzón local elegido para el proyecto. La apertura automática del correo en la app mediante Universal Links/App Links y las notificaciones push quedan para otra entrega. El esquema `busco-player` está preparado para un development build; Expo Go usa sus propios enlaces de desarrollo.
+No se envían correos reales: se mantiene el buzón local elegido para el proyecto. La apertura automática del correo en la app mediante Universal Links/App Links y las notificaciones push quedan para otra entrega. El esquema `falta-uno` está preparado para un development build; Expo Go usa sus propios enlaces de desarrollo.
 
 ## Probar en un teléfono con Expo Go
 
@@ -65,7 +65,7 @@ El enlace debe verificarse en la misma instalación que lo solicitó. Si lo pedi
 `EXPO_PUBLIC_WEB_URL` indica dónde está la web que abre una invitación compartida. Si querés que otro teléfono pueda abrirla en su navegador, iniciá también Vite:
 
 ```bash
-npm run dev -w @busco/web -- --host 0.0.0.0
+npm run dev -w @falta-uno/web -- --host 0.0.0.0
 ```
 
 La API ya debe estar ejecutándose. También podés copiar el enlace y pegarlo en la app receptora, que consulta su API configurada. Estas direcciones solo sirven en tu red local; para invitar fuera de ella hará falta desplegar la API y la web.

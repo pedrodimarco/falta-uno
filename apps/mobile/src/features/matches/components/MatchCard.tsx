@@ -1,4 +1,4 @@
-import type { MatchSummary } from "@busco/contracts";
+import type { MatchSummary } from "@falta-uno/contracts";
 import { router } from "expo-router";
 import { Body, Button, Card, Label } from "../../../shared/components/ui";
 import { formatDate } from "../formatters";

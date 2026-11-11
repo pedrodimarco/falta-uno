@@ -344,7 +344,7 @@ test("el aviso se reintenta tras fallar el correo sin perder la reserva ni dupli
 });
 
 test("reiniciar conserva orden, vencimientos y avisos pendientes", async () => {
-  const directory = mkdtempSync(path.join(tmpdir(), "busco-waitlist-"));
+  const directory = mkdtempSync(path.join(tmpdir(), "falta-uno-waitlist-"));
   const filename = path.join(directory, "test.sqlite");
   let f = await fixture(filename);
   let restarted: Awaited<ReturnType<typeof createTestApplication>> | undefined;

@@ -1,4 +1,4 @@
-import type { MatchDetail } from "@busco/contracts";
+import type { MatchDetail } from "@falta-uno/contracts";
 import { Alert, Platform } from "react-native";
 import { router } from "expo-router";
 import { Body, Button, Card, Label } from "../../../shared/components/ui";

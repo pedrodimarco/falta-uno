@@ -1,4 +1,4 @@
-import type { MatchDetail, MatchInput, MatchSummary } from "@busco/contracts";
+import type { MatchDetail, MatchInput, MatchSummary } from "@falta-uno/contracts";
 import { http } from "../../shared/api/http";
 const path = (id: string) => `/matches/${encodeURIComponent(id)}`;
 export const getMyMatches = (signal?: AbortSignal) =>

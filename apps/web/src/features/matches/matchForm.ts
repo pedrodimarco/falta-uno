@@ -1,4 +1,4 @@
-import type { MatchInput } from "@busco/contracts";
+import type { MatchInput } from "@falta-uno/contracts";
 
 type MatchFormOptions = Pick<MatchInput, "sport" | "capacity" | "timeZone">;
 

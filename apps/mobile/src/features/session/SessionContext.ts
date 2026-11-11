@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { SessionPerson } from "@busco/contracts";
+import type { SessionPerson } from "@falta-uno/contracts";
 interface SessionContextValue {
   person: SessionPerson | null;
   loading: boolean;

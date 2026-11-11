@@ -8,7 +8,7 @@ const application = createApplication(config);
 
 const server = application.app.listen(port, host, () => {
   application.startBackgroundJobs();
-  console.log(`Busco Player API: http://${host}:${port}`);
+  console.log(`Falta uno API: http://${host}:${port}`);
 });
 
 let stopping = false;

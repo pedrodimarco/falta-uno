@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { AppState } from "react-native";
 import { useFocusEffect } from "expo-router";
-import type { MatchDetail } from "@busco/contracts";
+import type { MatchDetail } from "@falta-uno/contracts";
 import { useSession } from "../../session/SessionContext";
 import { getMatch } from "../api";
 import { errorMessage } from "../../../shared/utils/errors";

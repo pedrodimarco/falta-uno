@@ -1,4 +1,4 @@
-# Busco Player
+# Falta uno
 
 Primera entrega local para organizar partidos entre amigos. React + TypeScript en la web, Node.js + Express en la API y SQLite para persistencia. La aplicación React Native con Expo ya utiliza esta misma API.
 

@@ -1,5 +1,5 @@
 {
-  "name": "@busco/mobile",
+  "name": "@falta-uno/mobile",
   "private": true,
   "version": "0.1.0",
   "main": "expo-router/entry",
@@ -13,7 +13,7 @@
     "test": "node --import tsx --test tests/*.test.ts"
   },
   "dependencies": {
-    "@busco/contracts": "*",
+    "@falta-uno/contracts": "*",
     "expo": "~57.0.32",
     "expo-constants": "~57.0.23",
     "expo-linking": "~57.0.13",

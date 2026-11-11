@@ -1,4 +1,4 @@
-import { matchInput, type MatchInput } from "@busco/contracts";
+import { matchInput, type MatchInput } from "@falta-uno/contracts";
 export interface MatchDraft {
   sport: MatchInput["sport"];
   title: string;

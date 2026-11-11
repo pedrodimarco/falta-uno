@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import type { MatchInput } from "@busco/contracts";
+import type { MatchInput } from "@falta-uno/contracts";
 import { ErrorNotice } from "../../../shared/components/ErrorNotice";
 import { buildMatchInput } from "../matchForm";
 import { getErrorMessage } from "../../../shared/utils/errors";

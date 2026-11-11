@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { requestLoginInput } from "@busco/contracts";
+import { requestLoginInput } from "@falta-uno/contracts";
 import { useSession } from "../SessionContext";
 import { requestLink } from "../api";
 import { credentials } from "../../../shared/storage/credentials";

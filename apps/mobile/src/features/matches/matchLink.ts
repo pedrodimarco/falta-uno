@@ -5,10 +5,10 @@ export function matchIdFromLink(value: string) {
   if (idPattern.test(text)) return text;
   try {
     const url = new URL(text);
-    if (!["http:", "https:", "busco-player:"].includes(url.protocol))
+    if (!["http:", "https:", "falta-uno:"].includes(url.protocol))
       throw new Error();
     const path =
-      url.protocol === "busco-player:"
+      url.protocol === "falta-uno:"
         ? `/${url.host}${url.pathname}`
         : url.pathname;
     const id = /^\/partidos\/([^/]+)\/?$/.exec(path)?.[1];

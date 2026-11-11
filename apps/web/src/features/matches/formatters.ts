@@ -1,4 +1,4 @@
-import type { MatchSummary } from "@busco/contracts";
+import type { MatchSummary } from "@falta-uno/contracts";
 
 export function formatMatchDate(match: MatchSummary): string {
   return new Intl.DateTimeFormat("es-UY", {

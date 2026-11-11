@@ -1,4 +1,4 @@
-import type { MatchDetail } from "@busco/contracts";
+import type { MatchDetail } from "@falta-uno/contracts";
 import { useSession } from "../../session/useSession";
 interface Props {
   match: MatchDetail;

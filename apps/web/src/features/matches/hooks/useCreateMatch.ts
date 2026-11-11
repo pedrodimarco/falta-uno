@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import type { MatchInput } from "@busco/contracts";
+import type { MatchInput } from "@falta-uno/contracts";
 import { useSession } from "../../session/useSession";
 import { createMatch } from "../api";
 import { getErrorMessage } from "../../../shared/utils/errors";

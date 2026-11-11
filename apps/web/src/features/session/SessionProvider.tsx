@@ -5,7 +5,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { SessionPerson } from "@busco/contracts";
+import type { SessionPerson } from "@falta-uno/contracts";
 import { getSession, verifyLoginLink, endSession } from "./api";
 import { SessionContext } from "./SessionContext";
 

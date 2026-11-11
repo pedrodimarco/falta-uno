@@ -22,7 +22,7 @@ export class FileMagicLinkMailer implements MagicLinkMailer {
         {
           ...message,
           kind: "login",
-          subject: "Tu enlace para entrar a Busco Player",
+          subject: "Tu enlace para entrar a Falta uno",
           text: `Abrí este enlace en el navegador donde lo pediste:\n${message.url}\n\nVence en 10 minutos y se puede usar una sola vez. Si no lo pediste, ignorá este correo.`,
         },
         null,

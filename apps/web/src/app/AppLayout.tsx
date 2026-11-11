@@ -8,7 +8,7 @@ export function AppLayout() {
     <>
       <header className="site-header">
         <Link className="brand" to="/">
-          busco player <span>↗</span>
+          Falta uno <span>↗</span>
         </Link>
         <nav aria-label="Principal">
           <SessionMenu />

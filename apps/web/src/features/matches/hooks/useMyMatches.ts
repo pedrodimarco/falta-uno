@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { MatchSummary } from "@busco/contracts";
+import type { MatchSummary } from "@falta-uno/contracts";
 import { getMyMatches } from "../api";
 import { getErrorMessage } from "../../../shared/utils/errors";
 

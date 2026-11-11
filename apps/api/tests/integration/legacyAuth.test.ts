@@ -8,7 +8,7 @@ import { CryptoSessionTokens } from "../../src/security/CryptoSessionTokens.ts";
 import { createTestApplication } from "../helpers/createTestApplication.ts";
 
 async function fixture() {
-  const directory = mkdtempSync(path.join(tmpdir(), "busco-legacy-"));
+  const directory = mkdtempSync(path.join(tmpdir(), "falta-uno-legacy-"));
   const filename = path.join(directory, "legacy.sqlite");
   const database = new DatabaseSync(filename);
   // Esquema anterior al acceso por correo: la migración debe abrirlo sin perder datos.

@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "Busco Player",
-    "slug": "busco-player",
-    "scheme": "busco-player",
+    "name": "Falta uno",
+    "slug": "falta-uno",
+    "scheme": "falta-uno",
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.buscoplayer.app"
+      "bundleIdentifier": "com.faltauno.app"
     },
-    "android": { "package": "com.buscoplayer.app" },
+    "android": { "package": "com.faltauno.app" },
     "plugins": ["expo-router", "expo-secure-store"],
     "web": { "bundler": "metro", "output": "single" }
   }

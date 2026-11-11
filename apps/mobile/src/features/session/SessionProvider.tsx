@@ -4,7 +4,7 @@ import {
   useState,
   type PropsWithChildren,
 } from "react";
-import type { SessionPerson } from "@busco/contracts";
+import type { SessionPerson } from "@falta-uno/contracts";
 import { SessionContext } from "./SessionContext";
 import * as api from "./api";
 import { credentials } from "../../shared/storage/credentials";
