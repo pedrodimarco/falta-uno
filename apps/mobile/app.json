@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Busco Player",
+    "slug": "busco-player",
+    "scheme": "busco-player",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.buscoplayer.app"
+    },
+    "android": { "package": "com.buscoplayer.app" },
+    "plugins": ["expo-router", "expo-secure-store"],
+    "web": { "bundler": "metro", "output": "single" }
+  }
+}

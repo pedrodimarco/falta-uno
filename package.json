@@ -1,0 +1,46 @@
+{
+  "name": "busco-player",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,web \"npm run dev -w @busco/api\" \"npm run dev -w @busco/web\"",
+    "check": "npm run check --workspaces --if-present",
+    "test": "npm run test -w @busco/api && npm run test -w @busco/mobile",
+    "build": "npm run check && npm run build -w @busco/web",
+    "start": "npm run start -w @busco/api",
+    "format:web": "prettier --write apps/web",
+    "format:web:check": "prettier --check apps/web",
+    "format:api": "prettier --write apps/api",
+    "format:api:check": "prettier --check apps/api",
+    "mail:latest": "npm run mail:latest -w @busco/api",
+    "mail:offers": "npm run mail:offers -w @busco/api",
+    "dev:api": "npm run dev -w @busco/api",
+    "dev:mobile": "npm run dev -w @busco/mobile",
+    "mobile:android": "npm run android -w @busco/mobile",
+    "mobile:ios": "npm run ios -w @busco/mobile",
+    "mobile:web": "npm run web -w @busco/mobile",
+    "mobile:export": "npm run export -w @busco/mobile",
+    "format:mobile": "prettier --write apps/mobile",
+    "format:mobile:check": "prettier --check apps/mobile"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "concurrently": "^9.2.0",
+    "prettier": "^3.9.10",
+    "typescript": "^5.9.0"
+  },
+  "overrides": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native-worklets": "0.10.1",
+    "react-native-reanimated": "4.5.1"
+  }
+}

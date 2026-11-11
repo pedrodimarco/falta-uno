@@ -1,0 +1,23 @@
+{
+  "name": "@busco/api",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "check": "tsc --noEmit",
+    "test": "node --import tsx --test tests/**/*.test.ts",
+    "mail:latest": "node --import tsx scripts/showLatestMail.ts",
+    "mail:offers": "node --import tsx scripts/showLatestMail.ts --offers"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "@busco/contracts": "*",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.0",
+    "@types/express": "^5.0.0"
+  }
+}
