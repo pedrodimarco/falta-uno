@@ -4,7 +4,9 @@ Primera entrega local para organizar partidos entre amigos. React + TypeScript e
 
 ## Ejecutar
 
-Requiere Node.js 24 o superior y npm.
+Requiere Node.js 24.15 o superior y npm (las pruebas web usan jsdom).
+
+La versión de referencia para desarrollo y CI está fijada en `.nvmrc` (24.22.2). Si usás nvm, ejecutá `nvm install` y `nvm use` desde la raíz para utilizarla.
 
 ```bash
 npm install

@@ -65,7 +65,7 @@ Para entender la creación de un partido:
 4. `useCreateMatch` exige una sesión verificada y maneja creación, espera y errores. Si falta acceso, la página muestra `LoginForm` y vuelve a esa pantalla después de verificar el enlace.
 5. `features/matches/api.ts` define la petición; `shared/api/http.ts` la ejecuta.
 
-Para el detalle, empezar por `pages/MatchDetailPage.tsx`. El hook `useMatch` conserva los datos, impide acciones duplicadas y descarta respuestas viejas; también limpia el temporizador y el listener de foco al desmontarse. Los componentes reciben datos y acciones mediante props. El estado puramente visual (por ejemplo, mostrar el enlace o pedir confirmación antes de cancelar) queda en su componente.
+Para el detalle, empezar por `pages/MatchDetailPage.tsx`. El hook `useMatch` conserva los datos por partido e identidad, impide acciones duplicadas y descarta respuestas viejas. Al cambiar de cuenta o cerrar sesión, oculta inmediatamente el detalle anterior, cancela su consulta y carga el nuevo estado. Las acciones que ya llegaron al servidor pueden completarse, pero su respuesta no actualiza otra sesión. También limpia el temporizador y el listener de foco al desmontarse. `useMyMatches` vacía datos y errores al cambiar de identidad y deja de cargar al cerrar sesión. Los componentes reciben datos y acciones mediante props. El estado puramente visual (por ejemplo, mostrar el enlace o pedir confirmación antes de cancelar) queda en su componente.
 
 ## Convenciones
 
@@ -88,7 +88,7 @@ npm run format:web
 npm run format:web:check
 ```
 
-`npm test` ejecuta las pruebas de integración de la API; todavía no hay una suite automatizada de interfaz. Para verificar cambios del frontend, recorrer creación, detalle, cancelación, confirmación, listado y copia del enlace en el navegador. El README de la raíz documenta el acceso por correo, la lectura del buzón local y las limitaciones de esta entrega. La verificación del enlace es una acción explícita: abrir el correo no ejecuta el POST de acceso; el usuario presiona “Confirmar acceso”.
+`npm test` ejecuta las pruebas de API, móvil y los hooks web. Para ejecutar solo la regresión web: `npm run test -w @falta-uno/web`. Estas pruebas montan los hooks con React y jsdom, controlan las respuestas HTTP y cubren ingreso, salida, cambio de cuenta, consultas y acciones tardías, errores, conflictos, cambio de partido y StrictMode. No reemplazan una suite completa de navegación. Para verificar cambios del frontend, recorrer creación, detalle, cancelación, confirmación, listado y copia del enlace en el navegador. El README de la raíz documenta el acceso por correo, la lectura del buzón local y las limitaciones de esta entrega. La verificación del enlace es una acción explícita: abrir el correo no ejecuta el POST de acceso; el usuario presiona “Confirmar acceso”.
 
 ## Estados de espera
 
