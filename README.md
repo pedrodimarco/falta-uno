@@ -133,6 +133,42 @@ Prueba manual sugerida:
 5. Cancelar desde la segunda sesión y confirmar desde la tercera.
 6. Reiniciar la API y recargar: los datos deben continuar.
 
+## Integración continua (CI)
+
+El flujo de GitHub Actions está en [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Se ejecuta al abrir o actualizar un pull request dirigido a `main`, al hacer push a `main` y manualmente desde la pestaña **Actions → CI → Run workflow** cuando el archivo ya está en la rama predeterminada.
+
+En un único trabajo llamado **Calidad**, sobre Ubuntu 24.04 y la versión de Node.js de `.nvmrc`, ejecuta estos pasos en orden:
+
+| Paso     | Comando                           | Qué comprueba                                                                                   |
+| -------- | --------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Instalar | `npm ci`                          | Instala las versiones del lockfile; falla si no coincide con los manifiestos.                   |
+| Tipos    | `npm run check`                   | Ejecuta TypeScript en API, web y móvil; los contratos compartidos se comprueban al importarlos. |
+| Pruebas  | `npm test`                        | Ejecuta las suites de API, móvil y hooks web, incluidas las regresiones de sesión.              |
+| Compilar | `npm run build -w @falta-uno/web` | Genera la compilación de producción de la web.                                                  |
+
+La comprobación de tipos ya se hace en su propio paso, por eso el último paso compila directamente el workspace web. Se comprueba todo el monorepo en cada ejecución, también si el cambio está en los contratos; no hay filtros por carpeta.
+
+La caché conserva las descargas de npm y usa `package-lock.json` para su clave. No sustituye `npm ci` ni conserva `node_modules`. Las acciones oficiales están fijadas a revisiones concretas; al actualizarlas se deben revisar sus cambios y reemplazar los SHA. El flujo tiene permisos de lectura del código y cancela ejecuciones anteriores de la misma rama o PR cuando llega una nueva. Tiene un límite de quince minutos.
+
+Las pruebas usan bases y correos aislados: no requieren `.env`, secretos ni un proveedor de correo. El CI no despliega, envía correos reales ni genera APK/IPA. Tampoco incluye todavía pruebas completas de navegación en navegador ni ejecución en dispositivos móviles.
+
+Los avisos de seguridad que informa `npm ci` quedan visibles en el log de instalación. Este flujo todavía no incorpora una auditoría de dependencias como comprobación independiente.
+
+Para reproducir los controles localmente con la versión de `.nvmrc`:
+
+```bash
+npm ci
+npm run check
+npm test
+npm run build -w @falta-uno/web
+```
+
+`npm ci` reemplaza las dependencias instaladas, por lo que conviene detener los servidores de desarrollo antes de ejecutarlo en tu checkout. Si cambia una dependencia, actualizá el manifiesto y el lockfile juntos.
+
+Para activar este flujo, subí el archivo y los cambios de código, pruebas y lockfile que valida. Los resultados aparecerán en **Actions** y en los checks del pull request. Un fallo marca el check como fallido; exigir **Calidad** para permitir merges se configura aparte en las reglas de protección de `main`.
+
+Referencia: [guía oficial de CI para Node.js en GitHub Actions](https://docs.github.com/en/actions/tutorials/build-and-test-code/nodejs).
+
 ## API inicial
 
 Todas las respuestas son JSON. Los errores tienen `error` y `code`; la validación agrega `fields`.
