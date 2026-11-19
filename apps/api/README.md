@@ -51,6 +51,7 @@ src/
   database/
     connection.ts                   Abre y configura la conexión SQLite
     schema.ts                       Esquema inicial compatible con la base previa
+    migrations.ts                   Actualizaciones versionadas y transaccionales
     SqliteTransactionManager.ts     BEGIN IMMEDIATE, COMMIT y ROLLBACK
   config/
     environment.ts                  Lee y valida la configuración del entorno
@@ -160,3 +161,5 @@ Las rutas de partidos aceptan `Authorization: Bearer …` o la cookie web existe
 `HOST` permite elegir la interfaz de escucha; se conserva `127.0.0.1` por defecto. Para el teléfono en desarrollo se usa `HOST=0.0.0.0`. El middleware permite CORS exclusivamente para los orígenes locales configurados, incluidos 8081 y 5173. La conexión nativa no requiere CORS.
 
 Preparación del teléfono y estructura de la app en [../mobile/README.md](../mobile/README.md).
+
+El arranque inicializa el esquema histórico y ejecuta `database/migrations.ts`; `schema_migrations` registra cada versión. No modificar migraciones ya aplicadas: agregar una nueva. La primera incorpora `matches.version` y `guest_players`, sin borrar datos. Las pruebas cubren actualización desde esquema anterior, idempotencia y rollback ante fallos.

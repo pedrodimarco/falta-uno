@@ -110,6 +110,8 @@ El buzón local usa un archivo estable por aviso y una escritura atómica para e
 
 La base se crea automáticamente en `.data/busco-player.sqlite`, excluida del control de versiones. Puede elegirse otra ruta con `DATABASE_PATH`; `PORT` cambia el puerto de Express (al cambiarlo, también ajustá el proxy de Vite).
 
+El arranque aplica migraciones versionadas y transaccionales en `apps/api/src/database/migrations.ts`. La primera agrega versión de edición e invitados y conserva las bases anteriores. Las pruebas verifican datos, reinicio y rollback de la migración.
+
 SQLite evita requerir un servicio externo en esta primera entrega. PostgreSQL sigue como propuesta para una siguiente etapa: es una migración real de esquema y consultas, no un simple cambio de URL. Node puede mostrar un aviso de que su módulo SQLite es experimental.
 
 Las fechas se almacenan en UTC y se presentan en la zona horaria del partido. Los importes se guardan como enteros en centésimos; un valor ausente significa “a confirmar” y cero significa gratis.

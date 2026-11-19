@@ -42,7 +42,7 @@ El [README raíz](README.md) documenta ejecución y alcance; [el plan de product
 - Los repositorios y `TransactionManager.run` son síncronos con `node:sqlite`. Nunca uses callbacks `async` ni esperas de red dentro de esa transacción. `reconcileInTransaction` se llama dentro de una transacción ya abierta.
 - Persistí la oferta y su aviso en la misma transacción; enviá el correo después. Conservá reintentos, leases y escrituras locales idempotentes al modificar notificaciones.
 - Fechas en UTC, presentación en la zona IANA del partido. Importes en centésimos enteros: `null` significa costo a confirmar y `0` significa gratis.
-- Preservá datos existentes al evolucionar el esquema. El proyecto aún no tiene migraciones versionadas: `CREATE TABLE IF NOT EXISTS` no modifica columnas existentes. Un cambio de esquema debe contemplar la actualización de bases anteriores y probar que conserva sus datos.
+- Preservá datos existentes al evolucionar el esquema. Las migraciones versionadas viven en `database/migrations.ts` y se registran en `schema_migrations`. Agregá una nueva migración sin modificar las ya aplicadas; probá la actualización desde el esquema anterior, conservación de datos y rollback. `CREATE TABLE IF NOT EXISTS` no modifica columnas existentes.
 - El directorio del proyecto y el archivo SQLite conservan nombres históricos de Busco Player. No renombres archivos de datos, cookies o identificadores persistidos solo para actualizar la marca.
 
 ## Identidad, privacidad y estado de los clientes
