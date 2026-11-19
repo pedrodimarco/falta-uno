@@ -4,6 +4,8 @@ export interface WaitlistCoordinator {
   /** El llamador debe mantener abierta la transacción de modificación del partido. */
   reconcileInTransaction(match: Match, now: Date): void;
   view(match: Match, now: Date, viewerId?: string): WaitlistView;
+  adjustStartInTransaction(matchId: string, startsAt: string): void;
+  removePersonInTransaction(matchId: string, personId: string, now: Date): void;
 }
 export interface WaitlistUseCases {
   join(matchId: string, personId: string): void;

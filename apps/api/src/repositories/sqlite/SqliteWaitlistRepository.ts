@@ -71,6 +71,13 @@ export class SqliteWaitlistRepository implements WaitlistRepository {
       )
       .run(now, expiresAt, id);
   }
+  clampDeadlines(matchId: string, startsAt: number): void {
+    this.database
+      .prepare(
+        "UPDATE waitlist_entries SET expires_at=? WHERE match_id=? AND status='offered' AND expires_at>?",
+      )
+      .run(startsAt, matchId, startsAt);
+  }
   resolve(
     id: string,
     status: Exclude<WaitlistStatus, "waiting" | "offered">,

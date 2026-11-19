@@ -113,7 +113,7 @@ test("cancelar reserva el cupo al primero, impide adelantarse y aceptar no dupli
     assert.equal(first.confirmed, 1);
     assert.equal(first.reserved, 1);
     assert.ok(first.offer);
-    assert.equal(Date.parse(first.offer.expiresAt), f.now() + 2 * 3_600_000);
+    assert.equal(Date.parse(first.offer.expiresAt), f.now() + 30 * 60_000);
     assert.equal((await f.detail(f.second)).offer, null);
     assert.equal((await f.detail()).offer, null);
     assert.equal(
@@ -244,14 +244,27 @@ test("vencimiento exacto y rechazo de aceptación tardía; mantenimiento ofrece 
 });
 
 test("el plazo se limita al comienzo y no se ofrecen lugares después del inicio", async () => {
-  const f = await fixture(":memory:", 30 * 60_000);
+  const f = await fixture(":memory:", 10 * 60_000);
   try {
     await f.queue(f.first);
     await f.queue(f.second);
-    await f.cancelPlayer();
+    const playerId = (await f.detail()).players.find(
+      (person: { name: string }) => person.name === "Confirmado",
+    ).id;
+    assert.equal(
+      (
+        await f.request(
+          `${f.base}/players/${playerId}`,
+          "DELETE",
+          undefined,
+          f.organizer,
+        )
+      ).status,
+      200,
+    );
     const offer = (await f.detail(f.first)).offer;
-    assert.equal(Date.parse(offer.expiresAt), f.now() + 30 * 60_000);
-    f.advanceBy(30 * 60_000);
+    assert.equal(Date.parse(offer.expiresAt), f.now() + 10 * 60_000);
+    f.advanceBy(10 * 60_000);
     await f.runMaintenance();
     const detail = await f.detail(f.second);
     assert.equal(detail.closed, true);

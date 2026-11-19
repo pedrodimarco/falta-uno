@@ -68,6 +68,8 @@ function fixture() {
     matches: repository,
     waitlist: {
       reconcileInTransaction: () => {},
+      adjustStartInTransaction: () => {},
+      removePersonInTransaction: () => {},
       view: () => ({
         reserved: 0,
         waitingList: [],

@@ -8,6 +8,7 @@ Node.js, Express y TypeScript, organizado en controllers, services y repositorie
 src/
   controllers/
     matchController.ts              Valida solicitudes y responde sobre partidos
+    matchManagementController.ts    Edición, alta y baja por el organizador
     sessionController.ts            Valida solicitudes y responde sobre sesiones
     waitlistController.ts           Inscripción, salida, aceptación y rechazo
   routes/
@@ -20,6 +21,7 @@ src/
     errorHandler.ts                 Traduce errores a respuestas HTTP
   services/
     MatchService.ts                 Crear, consultar, confirmar y cancelar
+    MatchManagementService.ts       Edición y gestión del plantel
     SessionService.ts               Pedir y verificar enlaces; recuperar y cerrar sesiones
     WaitlistService.ts              Orden, reservas, ofertas y vencimientos
     OfferNotificationService.ts     Entrega con lease y reintentos
@@ -32,12 +34,14 @@ src/
   repositories/
     interfaces/
       MatchRepository.ts            Operaciones de persistencia de partidos
+      PlayerRepository.ts           Buscar cuentas e insertar invitados
       SessionRepository.ts          Cuentas, sesiones y vinculación anterior
       WaitlistRepository.ts         Entradas y estados de la lista
       OfferNotificationRepository.ts Avisos pendientes de oferta
       LoginLinkRepository.ts        Enlaces de acceso y límites de solicitud
     sqlite/
       SqliteMatchRepository.ts      SQL de partidos y participantes
+      SqlitePlayerRepository.ts     SQL de cuentas verificadas e invitados
       SqliteSessionRepository.ts    SQL de cuentas, personas y sesiones
       SqliteLoginLinkRepository.ts  SQL de enlaces y límites de solicitud
       rowMappers.ts                 Convierte filas SQL a modelos
@@ -145,7 +149,7 @@ Las pruebas cubren servicios con dependencias de memoria, vencimiento de sesione
 
 `server.ts` inicia `WaitlistWorker` cuando el servidor empieza a escuchar. `bootstrap.ts` expone `startBackgroundJobs`, `runMaintenance` y un `close` asíncrono que detiene el temporizador y espera la tarea activa antes de cerrar SQLite. Las pruebas no arrancan temporizadores salvo cuando verifican explícitamente el proceso de fondo.
 
-El plazo de dos horas y su límite al comienzo del partido están en `rules/waitlistRules.ts`. Las pruebas controlan el reloj, por lo que verifican el vencimiento sin esperar dos horas. Incluyen orden, varias bajas, concurrencia, permisos, rollback, reintentos, leases y reinicio del proceso.
+El plazo de treinta minutos y su límite al comienzo del partido están en `rules/waitlistRules.ts`. Las pruebas controlan el reloj, por lo que verifican el vencimiento sin esperar al reloj real. Incluyen orden, varias bajas, concurrencia, permisos, rollback, reintentos, leases y reinicio del proceso.
 
 ## Cliente React Native
 
@@ -161,5 +165,11 @@ Las rutas de partidos aceptan `Authorization: Bearer …` o la cookie web existe
 `HOST` permite elegir la interfaz de escucha; se conserva `127.0.0.1` por defecto. Para el teléfono en desarrollo se usa `HOST=0.0.0.0`. El middleware permite CORS exclusivamente para los orígenes locales configurados, incluidos 8081 y 5173. La conexión nativa no requiere CORS.
 
 Preparación del teléfono y estructura de la app en [../mobile/README.md](../mobile/README.md).
+
+## Edición y plantel
+
+`MatchManagementService` valida organizador y cierre dentro de `BEGIN IMMEDIATE`, mediante interfaces de partidos, jugadores y espera. La edición comprueba `expectedVersion` y la incrementa; no permite sobrescribir una edición concurrente. Cupos, participantes, reservas, invitados y avisos se actualizan o revierten juntos. Los comandos HTTP y ejemplos están en el [README raíz](../../README.md#api-inicial).
+
+La gestión del plantel no reordena la espera. Las altas manuales respetan reservas ajenas y pueden confirmar una oferta de la propia persona. Las bajas resuelven su entrada activa y reasignan cupos por secuencia. Los invitados tienen una identidad estable asociada a ese partido, sin correo ni sesión. El organizador puede gestionar hasta el inicio; la baja propia cierra una hora antes.
 
 El arranque inicializa el esquema histórico y ejecuta `database/migrations.ts`; `schema_migrations` registra cada versión. No modificar migraciones ya aplicadas: agregar una nueva. La primera incorpora `matches.version` y `guest_players`, sin borrar datos. Las pruebas cubren actualización desde esquema anterior, idempotencia y rollback ante fallos.

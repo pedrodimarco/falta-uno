@@ -1,6 +1,7 @@
 export interface Person {
   id: string;
   name: string;
+  isGuest?: boolean;
 }
 
 export interface SessionPerson extends Person {

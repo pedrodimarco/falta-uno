@@ -1,6 +1,6 @@
 import type { WaitlistView } from "../models/WaitlistEntry.ts";
 import type { Match } from "../models/Match.ts";
-import { isMatchClosed } from "../rules/matchRules.ts";
+import { cancellationDeadline, isMatchClosed } from "../rules/matchRules.ts";
 import type {
   MatchDetailView,
   MatchSummaryView,
@@ -38,6 +38,12 @@ export function toMatchDetail(
     ...toMatchSummary(match),
     ...waitlist,
     notes: match.notes,
+    version: match.version,
+    canCancelParticipation:
+      now.getTime() <= cancellationDeadline(match.startsAt),
+    cancellationClosesAt: new Date(
+      cancellationDeadline(match.startsAt),
+    ).toISOString(),
     organizer: match.organizer,
     players: match.players,
     joined: match.players.some((person) => person.id === viewerId),

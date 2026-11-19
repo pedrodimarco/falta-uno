@@ -1,3 +1,5 @@
+import { MatchManagementService } from "./services/MatchManagementService.ts";
+import { SqlitePlayerRepository } from "./repositories/sqlite/SqlitePlayerRepository.ts";
 import { WaitlistService } from "./services/WaitlistService.ts";
 import { OfferNotificationService } from "./services/OfferNotificationService.ts";
 import { SqliteWaitlistRepository } from "./repositories/sqlite/SqliteWaitlistRepository.ts";
@@ -107,7 +109,21 @@ export function createApplication(options: ApplicationOptions) {
       tokens: new CryptoSessionTokens(),
     });
     return {
-      app: createApp({ matches, sessions, waitlist }, options),
+      app: createApp(
+        {
+          matches,
+          sessions,
+          waitlist,
+          management: new MatchManagementService({
+            matches: matchRepository,
+            players: new SqlitePlayerRepository(database),
+            waitlist,
+            transactions,
+            clock,
+          }),
+        },
+        options,
+      ),
       startBackgroundJobs: () => worker.start(),
       runMaintenance: () => worker.runOnce(),
       close: async () => {

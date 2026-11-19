@@ -5,12 +5,17 @@ import type { Person } from "../../models/Person.ts";
 type Row = Record<string, SQLOutputValue>;
 
 export function mapPerson(row: Row): Person {
-  return { id: String(row.id), name: String(row.name) };
+  return {
+    id: String(row.id),
+    name: String(row.name),
+    ...(row.is_guest ? { isGuest: true } : {}),
+  };
 }
 
 export function mapMatchRecord(row: Row): MatchRecord {
   return {
     id: String(row.id),
+    version: Number(row.version),
     sport: row.sport as Sport,
     title: String(row.title),
     startsAt: String(row.starts_at),

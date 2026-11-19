@@ -5,6 +5,7 @@ import {
   assertAvailableCapacity,
   assertFutureStart,
   assertParticipationOpen,
+  assertCancellationOpen,
 } from "../rules/matchRules.ts";
 import type { Person } from "../models/Person.ts";
 import type {
@@ -72,6 +73,7 @@ export class MatchService implements MatchUseCases {
       matches.insert({
         ...fields,
         id,
+        version: 1,
         organizerId: organizer.id,
         startsAt: new Date(input.startsAt).toISOString(),
       });
@@ -109,6 +111,8 @@ export class MatchService implements MatchUseCases {
       const match = this.getMatch(id);
       const now = clock.now();
       assertParticipationOpen(match, now, "leave");
+      if (match.players.some((player) => player.id === personId))
+        assertCancellationOpen(match, now);
       this.dependencies.waitlist.reconcileInTransaction(match, now);
       matches.removeParticipant(id, personId);
       this.dependencies.waitlist.reconcileInTransaction(

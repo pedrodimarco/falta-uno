@@ -68,6 +68,20 @@ export class WaitlistService implements WaitlistCoordinator, WaitlistUseCases {
       available--;
     }
   }
+  adjustStartInTransaction(matchId: string, startsAt: string): void {
+    this.dependencies.waitlist.clampDeadlines(matchId, Date.parse(startsAt));
+  }
+  removePersonInTransaction(
+    matchId: string,
+    personId: string,
+    now: Date,
+  ): void {
+    const entry = this.dependencies.waitlist
+      .findActive(matchId)
+      .find((entry) => entry.person.id === personId);
+    if (entry)
+      this.dependencies.waitlist.resolve(entry.id, "left", now.getTime());
+  }
   view(match: Match, now: Date, viewerId?: string): WaitlistView {
     const { waitlist } = this.dependencies;
     const closed = isMatchClosed(match.startsAt, now);

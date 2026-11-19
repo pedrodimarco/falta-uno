@@ -1,3 +1,5 @@
+import { MatchManagementService } from "../../src/services/MatchManagementService.ts";
+import { SqlitePlayerRepository } from "../../src/repositories/sqlite/SqlitePlayerRepository.ts";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { openDatabase } from "../../src/database/connection.ts";
@@ -23,6 +25,7 @@ function fixture() {
   }
   matches.insert({
     id: "match",
+    version: 1,
     organizerId: "organizer",
     sport: "Pádel",
     title: "Partido",
@@ -117,6 +120,83 @@ test("los avisos tienen lease persistente y no pueden marcarlos como enviados ot
       ),
       null,
     );
+  } finally {
+    f.database.close();
+  }
+});
+
+test("si falla el aviso al ampliar cupos se revierten la edición, versión y ofertas", () => {
+  const f = fixture();
+  try {
+    const management = new MatchManagementService({
+      matches: f.matches,
+      players: new SqlitePlayerRepository(f.database),
+      waitlist: f.waitlist,
+      transactions: f.transactions,
+      clock: { now: () => f.now },
+    });
+    const original = f.matches.findById("match")!;
+    const { id: _, organizer, players: __, version, ...fields } = original;
+    f.notifications.enqueue = () => {
+      throw new Error("fallo del aviso de edición");
+    };
+    assert.throws(
+      () =>
+        management.update(
+          "match",
+          { ...fields, expectedVersion: version, capacity: 3 },
+          organizer.id,
+        ),
+      /fallo del aviso de edición/,
+    );
+    assert.equal(f.matches.findById("match")!.version, 1);
+    assert.equal(f.matches.findById("match")!.capacity, 2);
+    assert.equal(f.entries.findActive("match")[0].status, "waiting");
+  } finally {
+    f.database.close();
+  }
+});
+
+test("si falla la inscripción de un invitado también se revierten su identidad y marcador", () => {
+  const f = fixture();
+  try {
+    const management = new MatchManagementService({
+      matches: f.matches,
+      players: new SqlitePlayerRepository(f.database),
+      waitlist: f.waitlist,
+      transactions: f.transactions,
+      clock: { now: () => f.now },
+    });
+    const match = f.matches.findById("match")!;
+    const { organizer: _, players: __, id: ___, ...fields } = match;
+    f.matches.update("match", { ...fields, capacity: 4 });
+    f.database.exec(
+      `CREATE TRIGGER fail_guest BEFORE INSERT ON participants WHEN NEW.person_id='new-guest' BEGIN SELECT RAISE(ABORT,'fallo al inscribir'); END;`,
+    );
+    assert.throws(
+      () =>
+        management.addPlayer(
+          "match",
+          { kind: "guest", name: "Invitado", guestId: "new-guest" },
+          match.organizer.id,
+        ),
+      /fallo al inscribir/,
+    );
+    assert.equal(
+      f.database
+        .prepare("SELECT count(*) AS count FROM people WHERE id='new-guest'")
+        .get()!.count,
+      0,
+    );
+    assert.equal(
+      f.database
+        .prepare(
+          "SELECT count(*) AS count FROM guest_players WHERE person_id='new-guest'",
+        )
+        .get()!.count,
+      0,
+    );
+    assert.equal(f.entries.findActive("match")[0].status, "waiting");
   } finally {
     f.database.close();
   }

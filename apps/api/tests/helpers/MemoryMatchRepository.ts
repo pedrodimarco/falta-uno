@@ -33,6 +33,12 @@ export class MemoryMatchRepository implements MatchRepository {
     });
   }
 
+  update(id: string, fields: Omit<MatchRecord, "id" | "organizerId">): void {
+    const match = this.matches.get(id);
+    if (!match) throw new Error("Partido de prueba inexistente.");
+    this.matches.set(id, { ...match, ...fields });
+  }
+
   addParticipant(id: string, personId: string, _joinedAt: string): void {
     const match = this.matches.get(id);
     if (!match) throw new Error("Partido de prueba inexistente.");

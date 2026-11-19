@@ -16,8 +16,9 @@ export class SqliteMatchRepository implements MatchRepository {
     const players = this.database
       .prepare(
         `
-      SELECT p.id, p.name FROM participants t
+      SELECT p.id, p.name, g.person_id IS NOT NULL AS is_guest FROM participants t
       JOIN people p ON p.id = t.person_id
+      LEFT JOIN guest_players g ON g.person_id=p.id AND g.match_id=t.match_id
       WHERE t.match_id = ? ORDER BY t.joined_at, p.id
     `,
       )
@@ -55,13 +56,14 @@ export class SqliteMatchRepository implements MatchRepository {
       .prepare(
         `
       INSERT INTO matches (
-        id, sport, title, starts_at, time_zone, venue,
+        id, version, sport, title, starts_at, time_zone, venue,
         capacity, price, currency, notes, organizer_id
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
       )
       .run(
         match.id,
+        match.version,
         match.sport,
         match.title,
         match.startsAt,
@@ -72,6 +74,26 @@ export class SqliteMatchRepository implements MatchRepository {
         match.currency,
         match.notes,
         match.organizerId,
+      );
+  }
+
+  update(id: string, fields: Omit<MatchRecord, "id" | "organizerId">): void {
+    this.database
+      .prepare(
+        `UPDATE matches SET sport=?,title=?,starts_at=?,time_zone=?,venue=?,capacity=?,price=?,currency=?,notes=?,version=? WHERE id=?`,
+      )
+      .run(
+        fields.sport,
+        fields.title,
+        fields.startsAt,
+        fields.timeZone,
+        fields.venue,
+        fields.capacity,
+        fields.price,
+        fields.currency,
+        fields.notes,
+        fields.version,
+        id,
       );
   }
 

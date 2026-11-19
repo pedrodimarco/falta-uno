@@ -2,19 +2,25 @@ import type { Match, MatchRecord } from "../../models/Match.ts";
 import type { WaitlistView } from "../../models/WaitlistEntry.ts";
 import type { Person } from "../../models/Person.ts";
 
-export type CreateMatchCommand = Omit<MatchRecord, "id" | "organizerId"> & {
+export type CreateMatchCommand = Omit<
+  MatchRecord,
+  "id" | "organizerId" | "version"
+> & {
   organizerPlays: boolean;
 };
 
 export interface MatchSummaryView extends Omit<
   MatchRecord,
-  "notes" | "organizerId"
+  "notes" | "organizerId" | "version"
 > {
   confirmed: number;
   reserved: number;
 }
 
 export interface MatchDetailView extends MatchSummaryView, WaitlistView {
+  version: number;
+  canCancelParticipation: boolean;
+  cancellationClosesAt: string;
   notes: string;
   organizer: Match["organizer"];
   players: Match["players"];

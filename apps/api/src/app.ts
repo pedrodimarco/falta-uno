@@ -1,3 +1,4 @@
+import type { MatchManagementUseCases } from "./services/interfaces/MatchManagementUseCases.ts";
 import type { WaitlistUseCases } from "./services/interfaces/WaitlistUseCases.ts";
 import express from "express";
 import path from "node:path";
@@ -14,6 +15,7 @@ interface AppDependencies {
   matches: MatchUseCases;
   sessions: SessionUseCases;
   waitlist: WaitlistUseCases;
+  management: MatchManagementUseCases;
 }
 
 export interface HttpOptions {
@@ -44,7 +46,7 @@ export function createApp(
   );
   app.use(
     "/api/matches",
-    createMatchRoutes(services.matches, services.waitlist),
+    createMatchRoutes(services.matches, services.waitlist, services.management),
   );
   app.use("/api", (_request, response) => {
     response

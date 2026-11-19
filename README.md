@@ -83,7 +83,7 @@ No hay cobros ni datos de pago en esta versión. Las operaciones sobre cupos sig
 
 En un partido sin cupos libres, una persona identificada puede anotarse en la lista de espera y consultar su posición. El orden se guarda con una secuencia creciente, incluso si dos inscripciones tienen la misma fecha. Repetir la inscripción conserva la posición. Salir y volver a anotarse coloca a la persona al final.
 
-Cuando alguien cancela, el primer jugador en espera recibe una oferta. **El lugar queda reservado y todavía no cuenta como confirmado.** La oferta vence a las dos horas o al comienzo del partido, lo que ocurra primero. La persona puede aceptar o rechazar desde el detalle del partido; también puede salir de la espera mientras tiene una oferta. Rechazar, salir o dejar vencer la oferta libera la reserva para el siguiente.
+Cuando alguien cancela, el primer jugador en espera recibe una oferta. **El lugar queda reservado y todavía no cuenta como confirmado.** La oferta vence a los treinta minutos o al comienzo del partido, lo que ocurra primero. La persona puede aceptar o rechazar desde el detalle del partido; también puede salir de la espera mientras tiene una oferta. Rechazar, salir o dejar vencer la oferta libera la reserva para el siguiente.
 
 Los cupos confirmados y reservados se muestran por separado. Los jugadores nuevos no pueden tomar un lugar reservado para otra persona. Si se liberan varios cupos, se generan varias ofertas respetando el orden. Al comenzar el partido se cierran las ofertas y la espera.
 
@@ -185,6 +185,9 @@ Todas las respuestas son JSON. Los errores tienen `error` y `code`; la validaci�
 | GET    | `/api/matches`                             | Partidos de la sesión; requiere identidad                                              |
 | POST   | `/api/matches`                             | Crear partido; requiere identidad                                                      |
 | GET    | `/api/matches/:id`                         | Consultar detalle público                                                              |
+| PATCH  | `/api/matches/:id`                         | Editar datos; requiere organizador y `expectedVersion`                                 |
+| POST   | `/api/matches/:id/players`                 | Agregar cuenta por correo o invitado; requiere organizador                             |
+| DELETE | `/api/matches/:id/players/:personId`       | Quitar confirmado o persona en espera; requiere organizador                            |
 | PUT    | `/api/matches/:id/participation`           | Confirmar la participación propia                                                      |
 | DELETE | `/api/matches/:id/participation`           | Cancelar la participación propia                                                       |
 | PUT    | `/api/matches/:id/waitlist`                | Anotarse en la espera; requiere identidad verificada                                   |
@@ -193,6 +196,24 @@ Todas las respuestas son JSON. Los errores tienen `error` y `code`; la validaci�
 | POST   | `/api/matches/:id/offers/:offerId/decline` | Rechazar una oferta propia                                                             |
 
 El esquema de creación está en `packages/contracts/src/index.ts`. `startsAt` es una fecha ISO con zona u offset; `timeZone` es una zona IANA válida; `price` es un entero en centésimos o null.
+
+La edición recibe todos los campos mutables de creación (sin `organizerPlays`) y `expectedVersion`, tomado de `version` del detalle. Una versión desactualizada devuelve `409 STALE_MATCH`; capacidad insuficiente, `409 CAPACITY_TOO_SMALL`; otra cuenta, `403 FORBIDDEN`. Las tres operaciones de gestión devuelven el detalle actualizado.
+
+Ejemplos de cuerpos para agregar jugadores:
+
+```json
+{ "kind": "registered", "email": "jugador@example.test" }
+```
+
+```json
+{
+  "kind": "guest",
+  "name": "Lucía",
+  "guestId": "b1977083-bb7e-45e7-bb19-38336e3a2cf4"
+}
+```
+
+El cliente genera y conserva `guestId` (UUID) al reintentar la misma alta. Los invitados no se vinculan automáticamente a una cuenta futura. El detalle incorpora `canCancelParticipation`, `cancellationClosesAt` e `isGuest` en invitados. Los nuevos campos del contrato son opcionales para conservar compatibilidad con clientes anteriores; el servidor siempre aplica los permisos y plazos.
 
 ## Estructura
 

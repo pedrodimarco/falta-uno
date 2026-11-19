@@ -14,6 +14,12 @@ const domainStatus: Record<DomainErrorCode, number> = {
   INVALID_LOGIN_LINK: 400,
   AUTH_RATE_LIMIT: 429,
   MAIL_UNAVAILABLE: 503,
+  FORBIDDEN: 403,
+  STALE_MATCH: 409,
+  CAPACITY_TOO_SMALL: 409,
+  PLAYER_NOT_FOUND: 404,
+  PLAYER_CONFLICT: 409,
+  CANCELLATION_CLOSED: 409,
 };
 
 export const errorHandler: ErrorRequestHandler = (

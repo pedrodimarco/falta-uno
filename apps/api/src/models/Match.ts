@@ -4,6 +4,7 @@ export type Sport = "Fútbol 5" | "Pádel" | "Básquet" | "Otro";
 
 export interface MatchRecord {
   id: string;
+  version: number;
   sport: Sport;
   title: string;
   startsAt: string;

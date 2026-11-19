@@ -13,6 +13,7 @@ export interface WaitlistRepository {
   findMatchesToProcess(): string[];
   insert(id: string, matchId: string, personId: string, now: number): void;
   offer(id: string, now: number, expiresAt: number): void;
+  clampDeadlines(matchId: string, startsAt: number): void;
   resolve(
     id: string,
     status: Exclude<WaitlistStatus, "waiting" | "offered">,

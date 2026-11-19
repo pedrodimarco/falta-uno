@@ -8,6 +8,7 @@ import type { MatchRecord } from "../../src/models/Match.ts";
 
 const match: MatchRecord = {
   id: "match",
+  version: 1,
   organizerId: "organizer",
   sport: "Pádel",
   title: "Partido de prueba",
