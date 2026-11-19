@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { MatchDetail } from "@falta-uno/contracts";
+import type {
+  AddMatchPlayerInput,
+  MatchDetail,
+  UpdateMatchInput,
+} from "@falta-uno/contracts";
 import {
   getMatch,
   confirmParticipation,
@@ -8,6 +12,9 @@ import {
   leaveWaitlist,
   acceptOffer,
   declineOffer,
+  updateMatch,
+  addMatchPlayer,
+  removeMatchPlayer,
 } from "../api";
 import { useSession } from "../../session/useSession";
 import { ApiError } from "../../../shared/api/http";
@@ -180,6 +187,12 @@ export function useMatch(id: string) {
     pending: visible.pending,
     actionError: visible.actionError,
     reload: () => load(true),
+    update: (input: UpdateMatchInput) =>
+      runAction(() => updateMatch(id, input)),
+    addPlayer: (input: AddMatchPlayerInput) =>
+      runAction(() => addMatchPlayer(id, input)),
+    removePlayer: (personId: string) =>
+      runAction(() => removeMatchPlayer(id, personId)),
     confirm: () => runAction(() => confirmParticipation(id)),
     cancel: () => runAction(() => cancelParticipation(id)),
     joinWaitlist: () => runAction(() => joinWaitlist(id)),

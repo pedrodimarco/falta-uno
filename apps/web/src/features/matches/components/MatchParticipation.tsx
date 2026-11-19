@@ -48,7 +48,14 @@ export function MatchParticipation({
         <>
           <h2>¡Estás en el partido!</h2>
           <p className="muted">Tu lugar está confirmado.</p>
+          {!match.closed && match.canCancelParticipation === false && (
+            <p className="help">
+              El plazo para cancelar terminó una hora antes del encuentro.
+              Contactá al organizador si necesitás una baja.
+            </p>
+          )}
           {!match.closed &&
+            match.canCancelParticipation !== false &&
             (confirmCancel ? (
               <div className="cancel-confirm">
                 <p>¿Querés liberar tu lugar?</p>

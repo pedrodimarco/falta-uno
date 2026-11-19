@@ -95,3 +95,9 @@ npm run format:web:check
 El detalle distingue `confirmed` de `reserved`. La espera pública contiene nombres, posiciones y ofertas pendientes, sin direcciones de correo ni identificadores de ofertas ajenas. `offer` solo se devuelve al destinatario autenticado.
 
 `MatchParticipation` compone las acciones según el estado personal. `WaitlistActions` permite inscribirse y salir; `OfferActions` muestra el plazo y exige una decisión explícita. La cuenta regresiva solo orienta al jugador: el servidor decide si una oferta sigue vigente. Las acciones usan el mismo manejo de espera y errores de `useMatch` y vuelven a consultar el detalle ante un conflicto.
+
+## Gestión del organizador
+
+`MatchManagement` compone `MatchEditor` y `AddPlayerForm` desde el detalle. Solo aparece para el organizador; el servidor valida los permisos nuevamente. El editor conserva una instantánea y su versión: el refresco no pisa el borrador y una edición concurrente requiere cargar explícitamente los datos nuevos. La conversión de hora en zona IANA y centésimos vive en `@falta-uno/contracts`, compartida con móvil.
+
+Se agregan cuentas por correo exacto o invitados por nombre con un UUID estable para reintentos. Las bajas requieren confirmación y conservan el orden de espera. Las acciones reutilizan el estado y el aislamiento de sesión de `useMatch`. Las pruebas jsdom también cubren visibilidad del panel, envío de versión y conservación/recarga del borrador. La política completa de plazos y cupos está en el [README raíz](../../README.md#gestión-del-organizador).

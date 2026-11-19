@@ -27,6 +27,7 @@ export function MatchRoster({ match, currentPersonId }: MatchRosterProps) {
               </span>
               <span>
                 {p.name}
+                {p.isGuest ? " · invitado" : ""}
                 {p.id === currentPersonId ? " (vos)" : ""}
               </span>
               {p.id === match.organizer.id && (

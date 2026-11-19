@@ -1,3 +1,4 @@
+import { MatchManagement } from "../features/matches/components/MatchManagement";
 import { WaitlistRoster } from "../features/matches/components/WaitlistRoster";
 import { Link, useParams } from "react-router-dom";
 import { useSession } from "../features/session/useSession";
@@ -26,6 +27,9 @@ export function MatchDetailPage() {
     leaveWaitlist,
     acceptOffer,
     declineOffer,
+    update,
+    addPlayer,
+    removePlayer,
   } = useMatch(id);
 
   if (loading) return <Loading />;
@@ -96,6 +100,14 @@ export function MatchDetailPage() {
           <MatchShare key={id} match={match} />
         </aside>
       </div>
+      <MatchManagement
+        match={match}
+        pending={pending}
+        error={actionError}
+        onUpdate={update}
+        onAdd={addPlayer}
+        onRemove={removePlayer}
+      />
     </>
   );
 }

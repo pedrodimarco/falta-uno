@@ -710,3 +710,48 @@ nav {
     margin-top: 0;
   }
 }
+
+.management-panel {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface, #fff);
+}
+.management-panel h2 {
+  margin-top: 0;
+}
+.management-fields {
+  border: 0;
+  padding: 0;
+  margin: 1rem 0;
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.management-fields legend {
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.management-roster {
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+.management-roster li {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  .management-panel {
+    padding: 1rem;
+  }
+  .management-roster li {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
