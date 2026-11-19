@@ -14,7 +14,7 @@ export function Participation({
 }: {
   match: MatchDetail;
   pending: boolean;
-  run: (action: () => Promise<MatchDetail>) => Promise<void>;
+  run: (action: () => Promise<MatchDetail>) => Promise<boolean>;
   reload: () => void;
 }) {
   const { person } = useSession();
@@ -65,12 +65,19 @@ export function Participation({
     return (
       <Card>
         <Label>Tu lugar está confirmado</Label>
-        <Button
-          title="Cancelar mi participación"
-          secondary
-          disabled={pending}
-          onPress={cancel}
-        />
+        {match.canCancelParticipation === false ? (
+          <Body>
+            El plazo para cancelar terminó una hora antes del encuentro.
+            Contactá al organizador si necesitás una baja.
+          </Body>
+        ) : (
+          <Button
+            title="Cancelar mi participación"
+            secondary
+            disabled={pending}
+            onPress={cancel}
+          />
+        )}
       </Card>
     );
   if (match.offer)

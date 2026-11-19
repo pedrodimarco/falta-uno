@@ -1,4 +1,10 @@
-import type { MatchDetail, MatchInput, MatchSummary } from "@falta-uno/contracts";
+import type {
+  AddMatchPlayerInput,
+  UpdateMatchInput,
+  MatchDetail,
+  MatchInput,
+  MatchSummary,
+} from "@falta-uno/contracts";
 import { http } from "../../shared/api/http";
 const path = (id: string) => `/matches/${encodeURIComponent(id)}`;
 export const getMyMatches = (signal?: AbortSignal) =>
@@ -26,3 +32,22 @@ export const declineOffer = (id: string, offer: string) =>
   http<MatchDetail>(`${path(id)}/offers/${encodeURIComponent(offer)}/decline`, {
     method: "POST",
   });
+
+export function updateMatch(id: string, input: UpdateMatchInput) {
+  return http<MatchDetail>(`/matches/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    body: JSON.stringify(input),
+  });
+}
+export function addMatchPlayer(id: string, input: AddMatchPlayerInput) {
+  return http<MatchDetail>(`/matches/${encodeURIComponent(id)}/players`, {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+export function removeMatchPlayer(id: string, personId: string) {
+  return http<MatchDetail>(
+    `/matches/${encodeURIComponent(id)}/players/${encodeURIComponent(personId)}`,
+    { method: "DELETE" },
+  );
+}

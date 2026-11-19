@@ -9,6 +9,7 @@ Primera aplicación móvil con **Expo SDK 57, React Native 0.86, React 19.2 y Ty
 - Mis partidos: organizados, confirmados y en lista de espera.
 - Creación de partidos con deporte, fecha/hora, lugar, cupos, costo y notas.
 - Detalle público, participantes, confirmación y cancelación propia.
+- Edición del partido y gestión del plantel por el organizador: cuentas por correo e invitados sin cuenta.
 - Lista de espera, ofertas, aceptación, rechazo y contador de vencimiento.
 - Actualización cada 15 segundos con la pantalla enfocada y al volver del segundo plano.
 - Apertura de invitaciones pegando su enlace y compartir mediante la hoja nativa del sistema.
@@ -139,4 +140,10 @@ Prueba manual sugerida: ingresar → crear partido → volver al inicio → abri
 
 ### Dependencias pendientes de actualización
 
-La instalación de SDK 57 reporta siete avisos de `npm audit`: tres altos en la cadena `expo-router → query-string → decode-uri-component` y cuatro moderados en herramientas de fingerprint/glob/minimatch. No se aplica `npm audit fix --force`: propone cambios de SDK incompatibles con esta base. El decodificador corregido cambia CommonJS por ESM y no es un reemplazo directo para el consumidor actual. Antes de una publicación, actualizar al SDK compatible que incorpore estas correcciones y volver a verificar navegación y bundles. Esta primera entrega es para desarrollo local.
+La instalación de SDK 57 reporta seis avisos de `npm audit`: tres altos en la cadena `expo-router → query-string → decode-uri-component` y tres moderados en herramientas de fingerprint/glob/minimatch. No se aplica `npm audit fix --force`: propone cambios de SDK incompatibles con esta base. El decodificador corregido cambia CommonJS por ESM y no es un reemplazo directo para el consumidor actual. Antes de una publicación, actualizar al SDK compatible que incorpore estas correcciones y volver a verificar navegación y bundles. Esta primera entrega es para desarrollo local.
+
+## Edición y plantel
+
+`MatchManagement`, `MatchEditor` y `AddPlayerForm` componen la gestión desde `MatchDetailScreen`, con controles nativos y las mismas reglas HTTP que la web. El borrador conserva la versión original; si otra pantalla edita, se ofrece cargar la nueva versión. Fecha/hora se interpretan en la zona IANA elegida mediante funciones puras compartidas. `expo-crypto` genera el UUID de cada alta de invitado y lo mantiene al reintentar, evitando duplicados.
+
+Las bajas se confirman antes de enviar. La interfaz respeta el cierre de la baja propia una hora antes; la gestión del organizador cierra al inicio. Cupos y orden de espera los decide la API. Ver los detalles en el [README raíz](../../README.md#gestión-del-organizador). Los tests de conversión cubren zona horaria, horas ambiguas o inexistentes, conservación de segundos e importes; todavía se requiere comprobar estos controles en un teléfono.

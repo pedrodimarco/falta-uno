@@ -1,3 +1,9 @@
+import { MatchManagement } from "../features/matches/components/MatchManagement";
+import {
+  updateMatch,
+  addMatchPlayer,
+  removeMatchPlayer,
+} from "../features/matches/api";
 import { useState } from "react";
 import { Share } from "react-native";
 import { useLocalSearchParams } from "expo-router";
@@ -89,6 +95,7 @@ export function MatchDetailScreen() {
                   match.players.map((player) => (
                     <Body key={player.id}>
                       {player.name}
+                      {player.isGuest ? " · invitado" : ""}
                       {player.id === match.organizer.id ? " · organiza" : ""}
                     </Body>
                   ))
@@ -107,6 +114,20 @@ export function MatchDetailScreen() {
                   ))}
                 </Card>
               )}
+              <MatchManagement
+                match={match}
+                pending={state.pending}
+                error={state.actionError}
+                onUpdate={(input) =>
+                  state.run(() => updateMatch(match.id, input))
+                }
+                onAdd={(input) =>
+                  state.run(() => addMatchPlayer(match.id, input))
+                }
+                onRemove={(personId) =>
+                  state.run(() => removeMatchPlayer(match.id, personId))
+                }
+              />
               <Notice message={shareError} />
               <Button
                 title="Compartir invitación"

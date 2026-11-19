@@ -60,7 +60,7 @@ export function useMatch(id: string) {
     }, [id, person?.id, refreshKey]),
   );
   async function run(operation: () => Promise<MatchDetail>) {
-    if (working.current || !focused.current) return;
+    if (working.current || !focused.current) return false;
     working.current = true;
     const request = ++revision.current;
     setPending(true);
@@ -72,9 +72,11 @@ export function useMatch(id: string) {
       if (request === revision.current) {
         setMatch(updated);
         setError("");
+        return true;
       }
+      return false;
     } catch (error) {
-      if (request !== revision.current) return;
+      if (request !== revision.current) return false;
       setActionError(errorMessage(error));
       try {
         const updated = await getMatch(id);
@@ -82,6 +84,7 @@ export function useMatch(id: string) {
       } catch {
         /* Conservar datos y error de la acción para poder reintentar. */
       }
+      return false;
     } finally {
       if (request === revision.current) {
         working.current = false;
