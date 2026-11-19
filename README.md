@@ -37,6 +37,7 @@ La preparación paso a paso, estructura y limitaciones están en [apps/mobile/RE
 - Consultar partidos por enlace sin identificarse.
 - Ingresar por correo con un enlace de un solo uso y confirmar o cancelar la participación propia.
 - Incluir al organizador como jugador, de forma opcional.
+- Editar los datos del partido y agregar o quitar jugadores desde la cuenta organizadora, en web y móvil.
 - Listar los partidos organizados o en los que participa la sesión actual.
 - Copiar el enlace o abrir WhatsApp con un mensaje preparado; el envío lo hace el usuario.
 - Persistir datos y sesiones tras reiniciar el servidor.
@@ -44,6 +45,18 @@ La preparación paso a paso, estructura y limitaciones están en [apps/mobile/RE
 - Anotarse y salir de una lista de espera ordenada.
 - Reservar cupos mediante ofertas con aceptación, rechazo y vencimiento automático.
 - Preparar avisos de cupos en el buzón local, con reintentos si falla la entrega.
+
+## Gestión del organizador
+
+Desde el detalle, la cuenta organizadora puede editar deporte, título, fecha/hora, zona horaria, lugar, cupos, costo por persona y notas hasta el inicio del encuentro. La identidad del organizador no se transfiere. El borrador se conserva durante las actualizaciones automáticas; si otra pantalla guardó cambios, se exige cargar la última versión antes de volver a guardar.
+
+Se pueden agregar cuentas verificadas por su correo exacto o invitados por nombre, sin crearles una cuenta. Los invitados quedan identificados como tales y solo el organizador gestiona su participación. Personas con el mismo nombre pueden ser distintas; reintentar la misma solicitud de invitado no duplica el cupo. No hay buscador público de cuentas ni correos visibles en el detalle.
+
+Los agregados confirman un cupo disponible: no saltan la lista de espera ni ocupan reservas ajenas. Si la persona ya tiene una oferta vigente, el organizador puede confirmar ese lugar. Se pueden quitar confirmados y personas en espera; las posiciones restantes mantienen su orden y una baja ofrece el cupo al siguiente. No se puede reducir la capacidad por debajo de confirmados más reservas vigentes.
+
+La baja propia se permite hasta una hora antes, incluyendo el instante del límite; el organizador puede quitar jugadores hasta el inicio. Adelantar el horario acorta las ofertas cuando sea necesario; posponerlo no extiende ofertas ya emitidas. El límite de baja propia se recalcula según el horario guardado. Los cambios se ven al actualizar el detalle, sin avisos automáticos de edición o bajas en esta entrega.
+
+La cancelación del encuentro hasta dos horas antes está acordada, pero todavía no está implementada. El inicio sigue mostrando “Mis partidos”; el listado público de próximos encuentros es una siguiente entrega.
 
 ## Acceso por correo (modo local)
 
@@ -230,6 +243,6 @@ La estructura del frontend y el recorrido de sus datos están explicados en [app
 
 ## Próximas entregas
 
-Envío real de correo; edición y cancelación del partido; repetición; pagos manuales y recordatorios. La base React Native ya está implementada; siguen la validación en dispositivos, enlaces de acceso que abran directamente la app y notificaciones push.
+Listado público de próximos partidos; envío real de correo; cancelación del partido; repetición; pagos manuales y recordatorios. La base React Native ya está implementada; siguen la validación en dispositivos, enlaces de acceso que abran directamente la app y notificaciones push.
 
 Plan y decisiones iniciales en [docs/plan-inicial.md](docs/plan-inicial.md).

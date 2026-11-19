@@ -18,7 +18,7 @@ Organizar partidos entre amigos mediante enlaces compartidos por WhatsApp. Prime
 
 Primero se implementó la web adaptable a celular en React y una API REST en Node.js y Express. Ahora React Native con Expo es el segundo cliente de esa API; comparte contratos, identidad y reglas del servidor.
 
-Propuestas adicionales, pendientes de validar: TypeScript para API y clientes, PostgreSQL para persistencia y Vite para la web. Elegir versiones soportadas al iniciar el desarrollo.
+TypeScript y Vite ya están implementados. La persistencia actual es SQLite; PostgreSQL sigue como propuesta futura.
 
 Estructura actual:
 
@@ -49,7 +49,7 @@ Orden del contenido en celular:
 
 Estados personales: visitante, confirmado, en espera, con lugar ofrecido. El estado del partido (abierto, completo, cancelado, finalizado) se determina por separado. Un cupo ofrecido cuenta como reservado hasta que se acepta o vence.
 
-El prototipo usa datos ficticios y una identidad ya seleccionada para aislar la interacción de asistencia. No envía mensajes, procesa pagos ni crea reservas reales. La identificación y los controles del organizador requieren pantallas adicionales.
+La entrega actual persiste partidos e identidades y ofrece gestión del organizador en web y móvil. El correo usa un buzón local, sin envíos reales; no procesa pagos ni reserva canchas.
 
 ## Reglas del primer flujo funcional
 
@@ -58,7 +58,7 @@ El prototipo usa datos ficticios y una identidad ya seleccionada para aislar la 
 - Repetir una confirmación o una cancelación no debe duplicar inscripciones ni liberar dos veces un cupo.
 - El organizador puede participar y agregar personas manualmente; estas también ocupan cupos.
 - Al cancelar, se ofrece el cupo al primero en espera y se reserva hasta su vencimiento.
-- Plazo inicial propuesto: dos horas o hasta el comienzo del partido, lo que ocurra antes. Es una hipótesis para probar.
+- Plazo acordado e implementado: treinta minutos o hasta el comienzo del partido, lo que ocurra antes.
 - Aceptar y vencer una oferta al mismo tiempo debe tener un único resultado, decidido por el servidor.
 - Al comenzar el partido se cierran nuevas inscripciones y ofertas.
 - Cancelar el partido invalida las ofertas pendientes y bloquea nuevas confirmaciones.
@@ -91,7 +91,7 @@ El prototipo usa datos ficticios y una identidad ya seleccionada para aislar la 
 - El organizador crea un partido y obtiene un enlace consultable desde otro navegador.
 - Dos jugadores ven las mismas confirmaciones persistidas, incluso tras recargar.
 - Dos solicitudes simultáneas al último cupo producen una sola confirmación.
-- Una persona puede cancelar su lugar, pero no el de otra.
+- Una persona puede cancelar su lugar hasta una hora antes. El organizador puede quitar jugadores hasta el inicio.
 - Los estados de carga, falta de conexión, enlace inválido y partido cancelado tienen respuestas visibles.
 
 ## Valor para el portfolio
@@ -103,3 +103,16 @@ Demostrar un recorrido completo con decisiones explicadas: API documentada, perm
 - Express: https://expressjs.com/
 - React, creación desde cero y Vite: https://react.dev/learn/build-a-react-app-from-scratch
 - React Native, componentes nativos: https://reactnative.dev/docs/intro-react-native-components
+
+## Requisitos aclarados y estado actual
+
+- **Acceso:** cualquier persona puede consultar por enlace todos los detalles públicos, incluidos nombres, horario y lugar. Para anotarse necesita acceso verificado. El listado público de próximos encuentros desde el inicio es parte del producto final y sigue pendiente; hoy se muestran los partidos de la sesión.
+- **Actores:** visitante consulta; jugador verificado confirma, cancela su lugar y usa la espera; organizador además edita todos los datos mutables y agrega/quita cuentas o invitados. Un invitado sin cuenta no tiene sesión propia.
+- **Plantel implementado:** altas manuales de confirmados con cupo, búsqueda de cuenta por correo exacto o invitado por nombre; bajas de confirmados y espera, sin reordenamiento manual. No se saltean reservas de terceros.
+- **Plazos implementados:** baja propia hasta una hora antes, inclusive; gestión del organizador hasta el inicio; ofertas hasta treinta minutos o el inicio. Adelantar un encuentro puede acortar ofertas; posponerlo no extiende las existentes.
+- **Edición implementada:** no reduce capacidad por debajo de confirmados más reservas; conserva plantel e identidades. Una versión evita sobrescrituras entre pantallas. Las fechas ambiguas o inexistentes por cambio de horario se rechazan en el formulario.
+- **Integridad:** permisos y reglas se aplican en el servidor, con transacciones, idempotencia y migraciones que conservan datos. Las pruebas cubren acceso ajeno, cierre, concurrencia, reservas, rollback y reinicio.
+- **Cancelación del encuentro:** política acordada de hasta dos horas antes; funcionalidad pendiente. Ausencias y bajas de último momento siguen sin política definida.
+- **Costos:** importe por persona implementado. Total de cancha y desglose de comisión, luz y extras quedan pendientes, al igual que pagos.
+- **Validación del producto:** observar creación de partidos, exposición y altas de confirmados/espera. Aún no se instrumentan eventos o métricas para medirlo ni se ha validado con usuarios reales.
+- **Pendientes de decisión:** vinculación futura de invitados con cuentas y comunicaciones al editar o quitar personas. Actualmente los cambios se consultan en el detalle; no generan avisos automáticos.
