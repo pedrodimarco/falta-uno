@@ -53,9 +53,33 @@ export const matchInput = z.object({
   organizerPlays: z.boolean().default(true),
 });
 export type MatchInput = z.infer<typeof matchInput>;
+export const updateMatchInput = matchInput
+  .omit({ organizerPlays: true })
+  .extend({
+    expectedVersion: z.number().int().min(1),
+  })
+  .strict();
+export type UpdateMatchInput = z.infer<typeof updateMatchInput>;
+export const addMatchPlayerInput = z.discriminatedUnion("kind", [
+  z
+    .object({
+      kind: z.literal("registered"),
+      email: z.string().trim().toLowerCase().pipe(z.email().max(254)),
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal("guest"),
+      name: z.string().trim().min(2).max(60),
+      guestId: z.uuid(),
+    })
+    .strict(),
+]);
+export type AddMatchPlayerInput = z.infer<typeof addMatchPlayerInput>;
 export interface Person {
   id: string;
   name: string;
+  isGuest?: boolean;
 }
 export interface MatchSummary {
   id: string;
@@ -71,6 +95,10 @@ export interface MatchSummary {
   currency: string;
 }
 export interface MatchDetail extends MatchSummary {
+  /** Campos aditivos para clientes que todavía consumen una API anterior. */
+  version?: number;
+  canCancelParticipation?: boolean;
+  cancellationClosesAt?: string;
   notes: string;
   organizer: Person;
   players: Person[];
@@ -99,3 +127,10 @@ export interface ApiError {
   error: string;
   code: string;
 }
+
+export {
+  formatLocalDateTime,
+  zonedDateTimeToIso,
+  editStartTime,
+  priceToCents,
+} from "./matchEditing.ts";
