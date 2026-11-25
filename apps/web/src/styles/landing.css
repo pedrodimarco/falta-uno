@@ -1019,3 +1019,88 @@
     scroll-behavior: smooth;
   }
 }
+
+.landing-page .contact-layout {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 80px;
+  padding-block: 36px 48px;
+}
+.landing-page .contact-copy .kicker {
+  margin-bottom: 18px;
+  font-size: 0.75rem;
+}
+.landing-page .contact-copy h2 {
+  margin-bottom: 20px;
+}
+.landing-page .contact-copy > p:not(.kicker) {
+  font-size: 1rem;
+  max-width: 34ch;
+}
+.landing-page .contact-form {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.landing-page .contact-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.landing-page .contact-form label {
+  font-size: 0.875rem;
+}
+.landing-page .contact-form input,
+.landing-page .contact-form textarea {
+  background: var(--surface);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 16px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.landing-page .contact-form input::placeholder,
+.landing-page .contact-form textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+.landing-page .contact-form input:focus-visible,
+.landing-page .contact-form textarea:focus-visible {
+  outline: 3px solid var(--muted);
+  outline-offset: 4px;
+}
+.landing-page .contact-form .btn {
+  justify-self: start;
+}
+.landing-page .contact-form .contact-note,
+.landing-page .contact-form .contact-feedback {
+  font-size: 0.875rem;
+}
+.landing-page .contact-feedback:empty {
+  display: none;
+}
+.landing-page .contact-form .contact-feedback {
+  color: var(--fg);
+  padding: 16px;
+  background: var(--fg-soft);
+  border-radius: var(--radius);
+}
+@media (max-width: 920px) {
+  .landing-page .contact-layout {
+    gap: 36px;
+  }
+}
+@media (max-width: 680px) {
+  .landing-page .contact-layout,
+  .landing-page .contact-fields {
+    grid-template-columns: 1fr;
+  }
+  .landing-page .contact-layout {
+    padding-block: 16px 36px;
+  }
+  .landing-page .contact-form input,
+  .landing-page .contact-form textarea {
+    font-size: 16px;
+  }
+}

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { afterEach, beforeEach, test } from "node:test";
+import { afterEach, beforeEach, mock, test } from "node:test";
 import { act, createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
@@ -165,4 +165,40 @@ test("organizar desde la landing abre Login antes del formulario", async () => {
   await act(async () => link("Organizar un partido").click());
   assert.ok(document.querySelector('input[type="email"]'));
   assert.equal(document.querySelector("h1"), null);
+});
+
+test("contacto valida los campos y conserva el mensaje sin enviarlo", async () => {
+  const fetch = mock.method(globalThis, "fetch", async () => {
+    throw new Error("El contacto no debe enviar solicitudes");
+  });
+  try {
+    await render();
+    const form = document.querySelector<HTMLFormElement>(
+      'form[aria-label="Contacto"]',
+    )!;
+    const name = form.elements.namedItem("name") as HTMLInputElement;
+    const email = form.elements.namedItem("email") as HTMLInputElement;
+    const message = form.elements.namedItem("message") as HTMLTextAreaElement;
+    const submit = form.querySelector("button")!;
+    assert.equal(form.checkValidity(), false);
+    await act(async () => submit.click());
+    assert.equal(form.querySelector('[role="status"]')!.textContent, "");
+    name.value = "Ana";
+    email.value = "correo-invalido";
+    message.value = "Me gustaría conocer más sobre Falta uno.";
+    assert.equal(form.checkValidity(), false);
+    email.value = "ana@example.test";
+    assert.equal(form.checkValidity(), true);
+    await act(async () => submit.click());
+    assert.match(
+      form.querySelector('[role="status"]')!.textContent!,
+      /no se envió/,
+    );
+    assert.equal(message.value, "Me gustaría conocer más sobre Falta uno.");
+    assert.equal(name.value, "Ana");
+    assert.equal(email.value, "ana@example.test");
+    assert.equal(fetch.mock.callCount(), 0);
+  } finally {
+    fetch.mock.restore();
+  }
 });

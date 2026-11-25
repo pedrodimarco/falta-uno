@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { ContactForm } from "../features/landing/components/ContactForm";
 
 /** Promotional page. The attendance example never changes real match data. */
 export function LandingPage() {
@@ -360,6 +361,17 @@ export function LandingPage() {
         </section>
       </main>
       <footer className="pagefoot">
+        <div className="container contact-layout">
+          <div className="contact-copy">
+            <p className="kicker">SEGUIMOS EN CONTACTO</p>
+            <h2>¿Charlamos?</h2>
+            <p>
+              ¿Tenés una pregunta o una idea para Falta uno? Nos interesa saber
+              cómo podemos ayudarte a volver a jugar.
+            </p>
+          </div>
+          <ContactForm />
+        </div>
         <div className="container row-between">
           <Link className="brand" to="/" aria-label="Falta uno, inicio">
             <span className="brand-symbol" aria-hidden="true">

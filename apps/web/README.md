@@ -63,6 +63,8 @@ src/
 
 La tarjeta de asistencia de la landing es una demostración con estado local: no inscribe a nadie ni persiste datos. El menú móvil y las preguntas frecuentes funcionan con teclado. Los enlaces a secciones usan desplazamiento suave cuando no está activada la preferencia de movimiento reducido.
 
+El pie incluye un formulario de contacto con nombre, email y mensaje, validación nativa de campos obligatorios y formato de correo. El envío está pendiente: al intentar enviar se informa que el mensaje no fue enviado y se conservan los campos. No realiza solicitudes HTTP ni guarda datos en almacenamiento local.
+
 ## Por dónde empezar a leer
 
 Para entender la creación de un partido:
