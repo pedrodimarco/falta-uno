@@ -1013,3 +1013,9 @@
 .landing-page .menu-toggle {
   padding: 0;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.landing-page) {
+    scroll-behavior: smooth;
+  }
+}

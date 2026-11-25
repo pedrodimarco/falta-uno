@@ -61,7 +61,7 @@ src/
 
 `/` muestra la landing promocional basada en `landing.html` de OpenDesign, incluso con sesión iniciada. La agenda vive en `/partidos`. «Entrar» abre `/ingresar` y lleva a la agenda después del acceso; «Organizar un partido» abre `/ingresar?volver=%2Fpartidos%2Fnuevo` y conserva la creación como destino después del acceso. Con sesión iniciada, Login redirige directamente al destino correspondiente. Los enlaces de correo que vuelven a `/` se interpretan en la web como acceso a la agenda; se mantienen los destinos específicos de creación y detalle. Cerrar sesión vuelve a la landing.
 
-La tarjeta de asistencia de la landing es una demostración con estado local: no inscribe a nadie ni persiste datos. El menú móvil y las preguntas frecuentes funcionan con teclado.
+La tarjeta de asistencia de la landing es una demostración con estado local: no inscribe a nadie ni persiste datos. El menú móvil y las preguntas frecuentes funcionan con teclado. Los enlaces a secciones usan desplazamiento suave cuando no está activada la preferencia de movimiento reducido.
 
 ## Por dónde empezar a leer
 
