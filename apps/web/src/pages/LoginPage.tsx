@@ -10,7 +10,8 @@ export function LoginPage() {
     ? requested
     : "/";
   if (!ready) return <Loading />;
-  if (person?.email) return <Navigate to={returnTo} replace />;
+  if (person?.email)
+    return <Navigate to={returnTo === "/" ? "/partidos" : returnTo} replace />;
   return (
     <section className="form-page">
       <LoginForm returnTo={returnTo} />

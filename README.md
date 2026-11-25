@@ -56,7 +56,7 @@ Los agregados confirman un cupo disponible: no saltan la lista de espera ni ocup
 
 La baja propia se permite hasta una hora antes, incluyendo el instante del límite; el organizador puede quitar jugadores hasta el inicio. Adelantar el horario acorta las ofertas cuando sea necesario; posponerlo no extiende ofertas ya emitidas. El límite de baja propia se recalcula según el horario guardado. Los cambios se ven al actualizar el detalle, sin avisos automáticos de edición o bajas en esta entrega.
 
-La cancelación del encuentro hasta dos horas antes está acordada, pero todavía no está implementada. El inicio sigue mostrando “Mis partidos”; el listado público de próximos encuentros es una siguiente entrega.
+La cancelación del encuentro hasta dos horas antes está acordada, pero todavía no está implementada. La raíz `/` muestra la landing promocional; “Mis partidos” está en `/partidos` y se abre después de ingresar. El listado público de próximos encuentros es una siguiente entrega.
 
 ## Acceso por correo (modo local)
 

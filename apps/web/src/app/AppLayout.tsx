@@ -12,7 +12,7 @@ export function AppLayout() {
         </Link>
         <nav aria-label="Principal">
           <SessionMenu />
-          <Link to="/">Mis partidos</Link>
+          <Link to="/partidos">Mis partidos</Link>
           <Link className="button small" to="/partidos/nuevo">
             Crear partido
           </Link>

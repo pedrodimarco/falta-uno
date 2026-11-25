@@ -38,7 +38,7 @@ export function MatchDetailPage() {
       <section className="empty">
         <ErrorNotice message={error} />
         <button onClick={reload}>Volver a intentar</button>
-        <Link to="/">Volver al inicio</Link>
+        <Link to="/partidos">Volver al inicio</Link>
       </section>
     );
   }
@@ -54,7 +54,7 @@ export function MatchDetailPage() {
 
   return (
     <>
-      <Link className="back" to="/">
+      <Link className="back" to="/partidos">
         ← Mis partidos
       </Link>
       <div className="detail-layout">

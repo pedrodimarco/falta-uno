@@ -12,7 +12,8 @@ src/
     AppRoutes.tsx                 Declara las rutas
     AppLayout.tsx                 Encabezado, navegación, pie y Outlet
   pages/
-    HomePage.tsx                  Inicio y mis partidos
+    LandingPage.tsx               Landing promocional pública
+    HomePage.tsx                  Mis partidos
     CreateMatchPage.tsx            Pantalla para crear un partido
     MatchDetailPage.tsx           Pantalla de detalle
     LoginPage.tsx                 Acceso por correo
@@ -53,7 +54,14 @@ src/
     utils/errors.ts               Mensajes para errores desconocidos
   styles/
     global.css                    Estilos y reglas adaptables a celular
+    landing.css                   Estilos aislados de la landing promocional
 ```
+
+## Entrada y navegación
+
+`/` muestra la landing promocional basada en `landing.html` de OpenDesign, incluso con sesión iniciada. La agenda vive en `/partidos`. «Entrar» abre `/ingresar` y lleva a la agenda después del acceso; «Organizar un partido» abre `/ingresar?volver=%2Fpartidos%2Fnuevo` y conserva la creación como destino después del acceso. Con sesión iniciada, Login redirige directamente al destino correspondiente. Los enlaces de correo que vuelven a `/` se interpretan en la web como acceso a la agenda; se mantienen los destinos específicos de creación y detalle. Cerrar sesión vuelve a la landing.
+
+La tarjeta de asistencia de la landing es una demostración con estado local: no inscribe a nadie ni persiste datos. El menú móvil y las preguntas frecuentes funcionan con teclado.
 
 ## Por dónde empezar a leer
 

@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { LandingPage } from "../pages/LandingPage";
 import { HomePage } from "../pages/HomePage";
 import { CreateMatchPage } from "../pages/CreateMatchPage";
 import { MatchDetailPage } from "../pages/MatchDetailPage";
@@ -10,10 +11,11 @@ import { AppLayout } from "./AppLayout";
 export function AppRoutes() {
   return (
     <Routes>
+      <Route path="/" element={<LandingPage />} />
       <Route element={<AppLayout />}>
         <Route path="ingresar" element={<LoginPage />} />
         <Route path="acceso" element={<VerifyLoginPage />} />
-        <Route index element={<HomePage />} />
+        <Route path="partidos" element={<HomePage />} />
         <Route path="partidos/nuevo" element={<CreateMatchPage />} />
         <Route path="partidos/:id" element={<MatchDetailPage />} />
         <Route path="*" element={<NotFoundPage />} />

@@ -28,7 +28,10 @@ export function VerifyLoginPage() {
     setError("");
     try {
       const result = await verify(token);
-      navigate(result.returnTo, { replace: true });
+      // Existing access links use "/" as the destination for the agenda.
+      navigate(result.returnTo === "/" ? "/partidos" : result.returnTo, {
+        replace: true,
+      });
     } catch (error) {
       setError(getErrorMessage(error));
       setLinkRejected(
