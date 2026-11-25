@@ -14,6 +14,14 @@ export function LoginPage() {
     return <Navigate to={returnTo === "/" ? "/partidos" : returnTo} replace />;
   return (
     <section className="form-page">
+      <div className="trial-access-notice" aria-labelledby="trial-access-title">
+        <p className="eyebrow">EN DESARROLLO</p>
+        <h1 id="trial-access-title">Acceso de prueba.</h1>
+        <p>
+          La aplicación todavía no está abierta al público. Este acceso está
+          destinado a las cuentas habilitadas para pruebas.
+        </p>
+      </div>
       <LoginForm returnTo={returnTo} />
     </section>
   );

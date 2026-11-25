@@ -1104,3 +1104,24 @@
     font-size: 16px;
   }
 }
+
+.landing-page .development-badge {
+  display: inline-flex;
+  margin-bottom: 20px;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--fg-soft);
+  color: var(--fg);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.landing-page .closing-inner .coming-soon-note {
+  color: var(--on-dark-muted);
+  margin-top: 20px;
+  max-width: 44ch;
+}
+.landing-page #proximamente,
+.landing-page #contacto {
+  scroll-margin-top: 100px;
+}

@@ -11,6 +11,7 @@ src/
     App.tsx                       Configura router y proveedor de sesión
     AppRoutes.tsx                 Declara las rutas
     AppLayout.tsx                 Encabezado, navegación, pie y Outlet
+    RequireSession.tsx            Acceso a funcionalidades con sesión verificada
   pages/
     LandingPage.tsx               Landing promocional pública
     HomePage.tsx                  Mis partidos
@@ -59,11 +60,28 @@ src/
 
 ## Entrada y navegación
 
-`/` muestra la landing promocional basada en `landing.html` de OpenDesign, incluso con sesión iniciada. La agenda vive en `/partidos`. «Entrar» abre `/ingresar` y lleva a la agenda después del acceso; «Organizar un partido» abre `/ingresar?volver=%2Fpartidos%2Fnuevo` y conserva la creación como destino después del acceso. Con sesión iniciada, Login redirige directamente al destino correspondiente. Los enlaces de correo que vuelven a `/` se interpretan en la web como acceso a la agenda; se mantienen los destinos específicos de creación y detalle. Cerrar sesión vuelve a la landing.
+`/` muestra la landing promocional basada en `landing.html` de OpenDesign, incluso con sesión iniciada. Comunica «En desarrollo» y «Próximamente»; los botones llevan a información dentro de la propia página. La landing no enlaza a Login ni a las funcionalidades.
+
+El acceso de prueba se abre manualmente en `/ingresar`. Conserva la solicitud y verificación por correo y muestra un aviso de acceso destinado a pruebas. No presenta navegación a partidos antes del acceso. Con sesión iniciada, Login redirige a `/partidos` o al destino permitido indicado en `volver` (por ejemplo `/ingresar?volver=%2Fpartidos%2Fnuevo`). Los enlaces de correo que vuelven a `/` se interpretan como acceso a la agenda; se mantienen los destinos específicos de creación y detalle. Cerrar sesión vuelve a la landing.
+
+`RequireSession` espera la recuperación de sesión y solo monta las rutas `/partidos`, `/partidos/nuevo` y `/partidos/:id` cuando la sesión tiene correo verificado. Sin sesión o con una identidad anterior sin correo, vuelve a `/` sin montar ni consultar el partido. Durante esta etapa, también las invitaciones abiertas directamente en la web requieren sesión; el comportamiento de la API sigue sin modificarse.
 
 La tarjeta de asistencia de la landing es una demostración con estado local: no inscribe a nadie ni persiste datos. El menú móvil y las preguntas frecuentes funcionan con teclado. Los enlaces a secciones usan desplazamiento suave cuando no está activada la preferencia de movimiento reducido.
 
 El pie incluye un formulario de contacto con nombre, email y mensaje, validación nativa de campos obligatorios y formato de correo. El envío está pendiente: al intentar enviar se informa que el mensaje no fue enviado y se conservan los campos. No realiza solicitudes HTTP ni guarda datos en almacenamiento local.
+
+### Restricción real de pruebas: pendiente en backend
+
+El frontend solo controla la presentación y la navegación. **La API actual todavía no limita el ingreso a una lista de cuentas de prueba.** Una sesión verificada sigue siendo suficiente para acceder a las funcionalidades de la web. Quitar los enlaces y redirigir rutas no impide usar la API directamente.
+
+Para cerrar el acceso público falta:
+
+- Configurar en el servidor una lista privada de correos habilitados, con una política explícita para activarla y sin publicarla en variables `VITE_*` o `EXPO_PUBLIC_*`.
+- Aplicarla tanto al solicitar como al verificar enlaces, sin crear cuentas, emitir avisos ni generar sesiones para correos no habilitados. Conservar expiración, uso único, vínculo con la solicitud original y límites de solicitudes.
+- Comprobar también las sesiones existentes y todos los endpoints de funcionalidades (incluida la lectura pública de detalles mientras dure esta etapa). Una cuenta retirada de la lista debe perder acceso. Cubrir cookies web y Bearer móvil; conservar la posibilidad de cerrar sesión.
+- Responder con un rechazo de acceso controlado y un mensaje comprensible para la interfaz. Probar acceso autorizado, denegado, enlaces ya emitidos, sesiones anteriores y clientes que llaman a la API directamente.
+
+El formulario de Login ya muestra los errores que devuelva la API. No se agregó ninguna lista de correos ni autorización simulada en el cliente.
 
 ## Por dónde empezar a leer
 
@@ -72,7 +90,7 @@ Para entender la creación de un partido:
 1. `app/AppRoutes.tsx` lleva a `pages/CreateMatchPage.tsx`.
 2. La página compone `MatchForm` y conecta el resultado con la navegación.
 3. `MatchForm` mantiene los valores visuales y llama a `buildMatchInput` para convertir fecha e importe al contrato.
-4. `useCreateMatch` exige una sesión verificada y maneja creación, espera y errores. Si falta acceso, la página muestra `LoginForm` y vuelve a esa pantalla después de verificar el enlace.
+4. `RequireSession` exige una sesión verificada antes de montar la página; `useCreateMatch` maneja creación, espera y errores. Para probar el acceso con regreso a creación, abrir `/ingresar?volver=%2Fpartidos%2Fnuevo` y verificar el enlace.
 5. `features/matches/api.ts` define la petición; `shared/api/http.ts` la ejecuta.
 
 Para el detalle, empezar por `pages/MatchDetailPage.tsx`. El hook `useMatch` conserva los datos por partido e identidad, impide acciones duplicadas y descarta respuestas viejas. Al cambiar de cuenta o cerrar sesión, oculta inmediatamente el detalle anterior, cancela su consulta y carga el nuevo estado. Las acciones que ya llegaron al servidor pueden completarse, pero su respuesta no actualiza otra sesión. También limpia el temporizador y el listener de foco al desmontarse. `useMyMatches` vacía datos y errores al cambiar de identidad y deja de cargar al cerrar sesión. Los componentes reciben datos y acciones mediante props. El estado puramente visual (por ejemplo, mostrar el enlace o pedir confirmación antes de cancelar) queda en su componente.

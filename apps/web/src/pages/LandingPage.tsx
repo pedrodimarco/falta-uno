@@ -56,13 +56,9 @@ export function LandingPage() {
           >
             <a href="#como-funciona">Cómo funciona</a>
             <a href="#preguntas">Preguntas</a>
-            <Link to="/ingresar">Entrar</Link>
-            <Link
-              className="btn btn-outline nav-create"
-              to="/ingresar?volver=%2Fpartidos%2Fnuevo"
-            >
-              Organizar un partido
-            </Link>
+            <a className="btn btn-outline nav-create" href="#proximamente">
+              Próximamente
+            </a>
           </nav>
         </div>
       </header>
@@ -72,6 +68,7 @@ export function LandingPage() {
             <div className="hero-split">
               <div className="hero-copy">
                 <p className="kicker">EL DEPORTE EMPIEZA CON TU GENTE</p>
+                <p className="development-badge">En desarrollo</p>
                 <h1>
                   Menos mensajes.
                   <br />
@@ -83,18 +80,16 @@ export function LandingPage() {
                   organizarse, cambia.
                 </p>
                 <div className="hero-actions">
-                  <Link
-                    className="btn btn-primary"
-                    to="/ingresar?volver=%2Fpartidos%2Fnuevo"
-                  >
-                    Organizar un partido
-                  </Link>
+                  <a className="btn btn-primary" href="#proximamente">
+                    Próximamente
+                  </a>
                   <a className="text-link" href="#como-funciona">
                     Así funciona
                   </a>
                 </div>
                 <p className="hero-note">
-                  Para partidos entre amigos. Para volver a jugar.
+                  Estamos preparando la aplicación. El acceso público todavía no
+                  está disponible.
                 </p>
               </div>
               <figure className="product-figure">
@@ -300,6 +295,14 @@ export function LandingPage() {
             </div>
             <div className="faq-list">
               <details>
+                <summary>¿Ya puedo usar Falta uno?</summary>
+                <p>
+                  Todavía estamos trabajando en la aplicación y haciendo pruebas
+                  antes de abrir el acceso al público. Mientras tanto, podés
+                  conocer la propuesta y probar el ejemplo de esta página.
+                </p>
+              </details>
+              <details>
                 <summary>¿Falta uno reserva la cancha?</summary>
                 <p>
                   No. El grupo elige y reserva la cancha por su cuenta. Falta
@@ -310,17 +313,16 @@ export function LandingPage() {
               <details>
                 <summary>¿Necesito una cuenta para confirmar?</summary>
                 <p>
-                  Sí. El acceso es por correo mediante un enlace de un solo uso,
-                  sin contraseña. Podés consultar el detalle de un partido desde
-                  la invitación antes de entrar.
+                  Sí. Cuando habilitemos el acceso público, vas a poder ingresar
+                  por correo mediante un enlace de un solo uso, sin contraseña.
                 </p>
               </details>
               <details>
                 <summary>¿Cómo encuentro el partido de mis amigos?</summary>
                 <p>
-                  Abrí el enlace que compartió quien organiza. Una vez que
-                  participás, el encuentro aparece en Mis partidos. El acceso
-                  actual funciona por invitación.
+                  Cuando habilitemos la aplicación, vas a poder abrir el enlace
+                  que comparta quien organiza. Una vez que participes, el
+                  encuentro va a aparecer en Mis partidos.
                 </p>
               </details>
               <details>
@@ -334,34 +336,36 @@ export function LandingPage() {
             </div>
           </div>
         </section>
-        <section className="closing">
+        <section
+          className="closing"
+          id="proximamente"
+          aria-labelledby="coming-soon-title"
+        >
           <div className="container">
             <div className="closing-inner">
               <div>
-                <p className="kicker">LA PRÓXIMA ES CON TU GENTE</p>
-                <h2>
-                  Vos poné la fecha.
+                <p className="kicker">PRÓXIMAMENTE</p>
+                <h2 id="coming-soon-title" tabIndex={-1}>
+                  Estamos preparando
                   <br />
-                  Que empiece el partido.
+                  el próximo partido.
                 </h2>
+                <p className="coming-soon-note">
+                  Falta uno está en desarrollo. Estamos trabajando para que
+                  organizar y volver a jugar sea cada vez más simple.
+                </p>
               </div>
               <div>
-                <Link
-                  className="btn btn-primary"
-                  to="/ingresar?volver=%2Fpartidos%2Fnuevo"
-                >
-                  Organizar un partido
-                </Link>
-                <Link className="text-link" to="/ingresar">
-                  Entrar a mi cuenta
-                </Link>
+                <a className="btn btn-primary" href="#como-funciona">
+                  Conocé la propuesta
+                </a>
               </div>
             </div>
           </div>
         </section>
       </main>
       <footer className="pagefoot">
-        <div className="container contact-layout">
+        <div className="container contact-layout" id="contacto">
           <div className="contact-copy">
             <p className="kicker">SEGUIMOS EN CONTACTO</p>
             <h2>¿Charlamos?</h2>
@@ -380,9 +384,9 @@ export function LandingPage() {
             <span>falta uno.</span>
           </Link>
           <p>Menos mensajes. Más juego.</p>
-          <Link className="text-link" to="/ingresar">
-            Entrar a mi cuenta
-          </Link>
+          <a className="text-link" href="#contacto">
+            Contacto
+          </a>
         </div>
       </footer>
     </div>

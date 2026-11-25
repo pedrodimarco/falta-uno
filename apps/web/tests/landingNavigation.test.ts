@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { afterEach, beforeEach, mock, test } from "node:test";
-import { act, createElement } from "react";
+import { act, createElement, useState } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
 import { JSDOM } from "jsdom";
@@ -33,19 +33,38 @@ beforeEach(() => {
 });
 afterEach(async () => {
   await act(async () => root.unmount());
+  mock.restoreAll();
   dom.window.close();
 });
+function SessionRoutes() {
+  const [person, setPerson] = useState(session.person);
+  return createElement(
+    SessionContext.Provider,
+    {
+      value: {
+        ...session,
+        person,
+        verify: async (token: string) => {
+          const result = await session.verify(token);
+          setPerson(result.person);
+          return result;
+        },
+        logout: async () => {
+          await session.logout();
+          setPerson(null);
+        },
+      },
+    },
+    createElement(AppRoutes),
+  );
+}
 async function render(path = "/") {
   await act(async () =>
     root.render(
       createElement(
         MemoryRouter,
         { initialEntries: [path] },
-        createElement(
-          SessionContext.Provider,
-          { value: session },
-          createElement(AppRoutes),
-        ),
+        createElement(SessionRoutes),
       ),
     ),
   );
@@ -84,24 +103,77 @@ test("la raíz muestra la landing incluso con sesión, y la demostración permit
   );
 });
 
-test("entrar abre el acceso y organizar conserva el destino de creación", async () => {
-  await render();
-  assert.equal(
-    link("Organizar un partido").getAttribute("href"),
-    "/ingresar?volver=%2Fpartidos%2Fnuevo",
+for (const authenticated of [false, true]) {
+  test(`la landing anuncia el desarrollo sin enlaces a funcionalidades (sesión: ${authenticated})`, async () => {
+    if (authenticated)
+      session.person = { id: "ana", name: "Ana", email: "ana@example.test" };
+    await render();
+    assert.ok(document.querySelector(".development-badge"));
+    assert.match(
+      document.querySelector(".hero-note")!.textContent!,
+      /acceso público todavía no está disponible/,
+    );
+    const links = [...document.querySelectorAll("a")];
+    assert.ok(links.some((a) => a.textContent === "Próximamente"));
+    for (const action of links) {
+      const destination = new URL(action.href);
+      assert.equal(destination.pathname, "/");
+      if (destination.hash)
+        assert.ok(document.getElementById(destination.hash.slice(1)));
+    }
+  });
+}
+
+test("Login sigue accesible directamente y comunica que es para pruebas sin ofrecer navegación a partidos", async () => {
+  await render("/ingresar?volver=%2Fpartidos%2Fnuevo");
+  assert.equal(document.querySelector("h1")!.textContent, "Acceso de prueba.");
+  assert.ok(document.querySelector('.login-form input[type="email"]'));
+  assert.ok(link("Volver al inicio"));
+  assert.equal(document.querySelector('a[href^="/partidos"]'), null);
+});
+
+for (const path of [
+  "/partidos",
+  "/partidos/nuevo",
+  "/partidos/00000000-0000-4000-8000-000000000001",
+]) {
+  test(`sin sesión no se monta la funcionalidad en ${path}`, async () => {
+    const fetch = mock.method(globalThis, "fetch", async () => {
+      throw new Error("No debe consultar partidos sin sesión");
+    });
+    await render(path);
+    assert.ok(document.querySelector(".landing-page"));
+    assert.equal(document.querySelector(".login-form"), null);
+    assert.equal(fetch.mock.callCount(), 0);
+  });
+}
+
+test("la sesión anterior sin correo verificado tampoco accede a funcionalidades", async () => {
+  session.person = { id: "legacy", name: "Anterior", email: null };
+  await render("/partidos/nuevo");
+  assert.ok(document.querySelector(".landing-page"));
+});
+
+test("las rutas privadas esperan la sesión antes de decidir la navegación", async () => {
+  session.ready = false;
+  session.person = { id: "ana", name: "Ana", email: "ana@example.test" };
+  await render("/partidos/nuevo");
+  assert.equal(document.querySelector("h1"), null);
+  assert.equal(document.querySelector(".landing-page"), null);
+  assert.match(
+    document.querySelector('[role="status"]')!.textContent!,
+    /Cargando/,
   );
-  for (const action of document.querySelectorAll<HTMLAnchorElement>(
-    'a[href^="/ingresar"]',
-  )) {
-    assert.equal(new URL(action.href).pathname, "/ingresar");
-  }
-  assert.equal(
-    document.querySelectorAll('a[href="/partidos/nuevo"]').length,
-    0,
-  );
-  await act(async () => link("Entrar").click());
-  assert.ok(document.querySelector('input[type="email"]'));
-  assert.equal(link("Mis partidos").getAttribute("href"), "/partidos");
+  session.ready = true;
+  await render("/partidos/nuevo");
+  assert.equal(document.querySelector("h1")!.textContent, "Armá el partido.");
+});
+
+test("una sesión verificada puede usar el acceso directo para crear partidos", async () => {
+  session.person = { id: "ana", name: "Ana", email: "ana@example.test" };
+  await render("/ingresar?volver=%2Fpartidos%2Fnuevo");
+  assert.equal(document.querySelector("h1")!.textContent, "Armá el partido.");
+  assert.equal(document.querySelector(".trial-access-notice"), null);
 });
 
 test("el menú móvil cierra con Escape y devuelve el foco al botón", async () => {
@@ -123,7 +195,7 @@ test("el menú móvil cierra con Escape y devuelve el foco al botón", async () 
 test("los enlaces de acceso existentes con destino raíz vuelven a la agenda", async () => {
   const person = { id: "ana", name: "Ana", email: "ana@example.test" };
   session.verify = async () => ({ person, returnTo: "/" });
-  // Keep the agenda anonymous so this routing test does not request match data.
+  mock.method(globalThis, "fetch", async () => Response.json([]));
   dom.window.history.replaceState(null, "", "/acceso#token=" + "a".repeat(64));
   await render("/acceso");
   await act(async () =>
@@ -149,22 +221,6 @@ test("el acceso solicitado desde creación conserva ese destino", async () => {
       .click(),
   );
   assert.equal(document.querySelector("h1")!.textContent, "Armá el partido.");
-});
-
-test("organizar desde la landing abre Login antes del formulario", async () => {
-  await render();
-  const organizeLinks = [...document.querySelectorAll("a")].filter(
-    (a) => a.textContent === "Organizar un partido",
-  );
-  assert.equal(organizeLinks.length, 3);
-  for (const action of organizeLinks) {
-    const destination = new URL(action.href);
-    assert.equal(destination.pathname, "/ingresar");
-    assert.equal(destination.searchParams.get("volver"), "/partidos/nuevo");
-  }
-  await act(async () => link("Organizar un partido").click());
-  assert.ok(document.querySelector('input[type="email"]'));
-  assert.equal(document.querySelector("h1"), null);
 });
 
 test("contacto valida los campos y conserva el mensaje sin enviarlo", async () => {
@@ -201,4 +257,17 @@ test("contacto valida los campos y conserva el mensaje sin enviarlo", async () =
   } finally {
     fetch.mock.restore();
   }
+});
+
+test("cerrar sesión desde una funcionalidad vuelve a la landing pública", async () => {
+  session.person = { id: "ana", name: "Ana", email: "ana@example.test" };
+  await render("/partidos/nuevo");
+  assert.equal(document.querySelector("h1")!.textContent, "Armá el partido.");
+  await act(async () =>
+    [...document.querySelectorAll("button")]
+      .find((b) => b.textContent === "Cerrar sesión")!
+      .click(),
+  );
+  assert.ok(document.querySelector(".landing-page"));
+  assert.equal(document.querySelector('a[href="/ingresar"]'), null);
 });
