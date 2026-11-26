@@ -18,7 +18,7 @@ export function CreateMatchPage() {
 
   return (
     <div className="form-page">
-      <Link className="back" to="/">
+      <Link className="back" to="/partidos">
         ← Mis partidos
       </Link>
       <header className="page-heading compact">

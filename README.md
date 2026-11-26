@@ -56,14 +56,14 @@ Los agregados confirman un cupo disponible: no saltan la lista de espera ni ocup
 
 La baja propia se permite hasta una hora antes, incluyendo el instante del límite; el organizador puede quitar jugadores hasta el inicio. Adelantar el horario acorta las ofertas cuando sea necesario; posponerlo no extiende ofertas ya emitidas. El límite de baja propia se recalcula según el horario guardado. Los cambios se ven al actualizar el detalle, sin avisos automáticos de edición o bajas en esta entrega.
 
-La cancelación del encuentro hasta dos horas antes está acordada, pero todavía no está implementada. El inicio sigue mostrando “Mis partidos”; el listado público de próximos encuentros es una siguiente entrega.
+La cancelación del encuentro hasta dos horas antes está acordada, pero todavía no está implementada. La raíz `/` muestra la landing promocional; “Mis partidos” está en `/partidos` y se abre después de ingresar. La web comunica «En desarrollo» y conserva el acceso de prueba por URL directa en `/ingresar`; la restricción a correos habilitados sigue pendiente en el backend (ver [entrada y navegación web](apps/web/README.md#entrada-y-navegación)). El listado público de próximos encuentros es una siguiente entrega.
 
 ## Acceso por correo (modo local)
 
 No se utiliza contraseña. Ingresá tu nombre y correo para pedir un enlace. En el modo local elegido, la aplicación **no envía mensajes a tu casilla**: guarda un correo de prueba en `.data/mail/`.
 
 1. Ejecutá `npm run dev` y abrí `http://127.0.0.1:5173`.
-2. Abrí un partido o elegí “Ingresar” y pedí un enlace con tu nombre y correo.
+2. Abrí `/ingresar` manualmente y pedí un enlace con tu nombre y correo. La landing pública no enlaza al acceso de prueba.
 3. En otra terminal, desde la raíz del proyecto, ejecutá `npm run mail:latest`.
 4. Copiá el enlace del correo y abrilo **en el mismo navegador y con el mismo host donde lo pediste**.
 5. Presioná “Confirmar acceso”. Volverás al partido o a la pantalla de origen. Confirmar asistencia sigue siendo una acción explícita.

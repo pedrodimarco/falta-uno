@@ -2,7 +2,11 @@ import { Link, Outlet } from "react-router-dom";
 import { SessionMenu } from "../features/session/components/SessionMenu";
 import { useSession } from "../features/session/useSession";
 
-export function AppLayout() {
+export function AppLayout({
+  showNavigation = true,
+}: {
+  showNavigation?: boolean;
+}) {
   const { person } = useSession();
   return (
     <>
@@ -10,21 +14,25 @@ export function AppLayout() {
         <Link className="brand" to="/">
           Falta uno <span>↗</span>
         </Link>
-        <nav aria-label="Principal">
-          <SessionMenu />
-          <Link to="/">Mis partidos</Link>
-          <Link className="button small" to="/partidos/nuevo">
-            Crear partido
-          </Link>
-        </nav>
+        {showNavigation ? (
+          <nav aria-label="Principal">
+            <SessionMenu />
+            <Link to="/partidos">Mis partidos</Link>
+            <Link className="button small" to="/partidos/nuevo">
+              Crear partido
+            </Link>
+          </nav>
+        ) : (
+          <Link to="/">Volver al inicio</Link>
+        )}
       </header>
       <main>
         <div className="identity-line">
-          ENTRE AMIGOS{" "}
+          {showNavigation ? "ENTRE AMIGOS" : "EN DESARROLLO"}{" "}
           <span>
             {person?.email
               ? `Jugás como ${person.name}`
-              : "Tu próximo partido empieza acá"}
+              : "Estamos preparando el próximo partido"}
           </span>
         </div>
         <Outlet />
