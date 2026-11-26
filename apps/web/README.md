@@ -60,7 +60,7 @@ src/
 
 ## Entrada y navegación
 
-`/` muestra la landing promocional basada en `landing.html` de OpenDesign, incluso con sesión iniciada. Comunica «En desarrollo» y «Próximamente»; los botones llevan a información dentro de la propia página. La landing no enlaza a Login ni a las funcionalidades.
+`/` muestra la landing promocional basada en `landing.html` de OpenDesign, incluso con sesión iniciada. Comunica «En desarrollo» y «Próximamente»; los botones llevan a información dentro de la propia página. La landing no enlaza a Login ni a las funcionalidades. Presenta como propuesta en desarrollo la opción de organizar partidos públicos (visibles en un listado, con inscripción directa si hay cupo) o privados (por invitación y fuera del listado). El catálogo, la elección de visibilidad y las reglas de acceso privado todavía no están implementados; la aplicación actual sigue usando invitaciones.
 
 El acceso de prueba se abre manualmente en `/ingresar`. Conserva la solicitud y verificación por correo y muestra un aviso de acceso destinado a pruebas. No presenta navegación a partidos antes del acceso. Con sesión iniciada, Login redirige a `/partidos` o al destino permitido indicado en `volver` (por ejemplo `/ingresar?volver=%2Fpartidos%2Fnuevo`). Los enlaces de correo que vuelven a `/` se interpretan como acceso a la agenda; se mantienen los destinos específicos de creación y detalle. Cerrar sesión vuelve a la landing.
 

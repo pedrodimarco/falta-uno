@@ -107,6 +107,7 @@ Demostrar un recorrido completo con decisiones explicadas: API documentada, perm
 ## Requisitos aclarados y estado actual
 
 - **Acceso:** cualquier persona puede consultar por enlace todos los detalles públicos, incluidos nombres, horario y lugar. Para anotarse necesita acceso verificado. El listado público de próximos encuentros desde el inicio es parte del producto final y sigue pendiente; hoy se muestran los partidos de la sesión.
+- **Visibilidad propuesta:** al organizar se podrá elegir un partido público o privado. Los públicos aparecerán en un listado de encuentros abiertos y permitirán confirmar asistencia directamente si hay cupo; los privados se compartirán por invitación y no aparecerán en ese listado. Esta distinción y el catálogo siguen pendientes de implementación. La landing los comunica como parte del producto en desarrollo.
 - **Actores:** visitante consulta; jugador verificado confirma, cancela su lugar y usa la espera; organizador además edita todos los datos mutables y agrega/quita cuentas o invitados. Un invitado sin cuenta no tiene sesión propia.
 - **Plantel implementado:** altas manuales de confirmados con cupo, búsqueda de cuenta por correo exacto o invitado por nombre; bajas de confirmados y espera, sin reordenamiento manual. No se saltean reservas de terceros.
 - **Plazos implementados:** baja propia hasta una hora antes, inclusive; gestión del organizador hasta el inicio; ofertas hasta treinta minutos o el inicio. Adelantar un encuentro puede acortar ofertas; posponerlo no extiende las existentes.

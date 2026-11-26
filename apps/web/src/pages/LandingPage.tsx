@@ -67,7 +67,7 @@ export function LandingPage() {
           <div className="container">
             <div className="hero-split">
               <div className="hero-copy">
-                <p className="kicker">EL DEPORTE EMPIEZA CON TU GENTE</p>
+                <p className="kicker">MÁS FORMAS DE VOLVER A JUGAR</p>
                 <p className="development-badge">En desarrollo</p>
                 <h1>
                   Menos mensajes.
@@ -75,9 +75,8 @@ export function LandingPage() {
                   Más partido.
                 </h1>
                 <p className="lead">
-                  Poné fecha al encuentro, compartí el enlace y tené claro quién
-                  juega. El grupo sigue siendo el mismo. La forma de
-                  organizarse, cambia.
+                  Organizá con tu grupo o encontrá un partido abierto para
+                  sumarte. Público o privado: vos elegís cómo volver a jugar.
                 </p>
                 <div className="hero-actions">
                   <a className="btn btn-primary" href="#proximamente">
@@ -199,15 +198,14 @@ export function LandingPage() {
               <div>
                 <p className="kicker">DEL «¿JUGAMOS?» AL «NOS VEMOS»</p>
                 <h2>
-                  Un enlace.
-                  <br />
-                  El partido en orden.
+                  Elegí el partido.
+                  <br />O armá el tuyo.
                 </h2>
               </div>
               <p>
-                No hace falta perderse entre mensajes para saber a qué hora se
-                juega o cuántos faltan. Los detalles y las confirmaciones tienen
-                su lugar.
+                Estamos preparando dos formas de organizar: partidos públicos
+                para encontrar con quién jugar y privados para tu grupo. En
+                ambos, los detalles y las confirmaciones van a tener su lugar.
               </p>
             </div>
             <div className="grid-3">
@@ -215,20 +213,19 @@ export function LandingPage() {
                 <h3>Ponele fecha.</h3>
                 <p>
                   Elegí el deporte, la cancha, la hora y los cupos. Agregá el
-                  costo y lo que conviene llevar.
+                  costo y decidí si el partido va a ser público o privado.
                 </p>
-                <span className="process-detail">
-                  Un encuentro con los detalles claros.
-                </span>
+                <span className="process-detail">Tu partido, a tu manera.</span>
               </article>
               <article className="process-item">
-                <h3>Pasá el enlace.</h3>
+                <h3>Abrí el juego o invitá.</h3>
                 <p>
-                  Compartilo con tu grupo. Cada persona abre la invitación y
-                  confirma si va a jugar.
+                  Si es público, otras personas van a poder encontrarlo y
+                  sumarse directamente si hay lugar. Si es privado, compartí la
+                  invitación con tu grupo.
                 </p>
                 <span className="process-detail">
-                  Tu gente, invitada por vos.
+                  Un equipo nuevo o los de siempre.
                 </span>
               </article>
               <article className="process-item">
@@ -318,11 +315,17 @@ export function LandingPage() {
                 </p>
               </details>
               <details>
-                <summary>¿Cómo encuentro el partido de mis amigos?</summary>
+                <summary>¿Cómo voy a encontrar partidos para jugar?</summary>
                 <p>
-                  Cuando habilitemos la aplicación, vas a poder abrir el enlace
-                  que comparta quien organiza. Una vez que participes, el
-                  encuentro va a aparecer en Mis partidos.
+                  La propuesta incluye un listado de partidos públicos abiertos.
+                  Vas a poder elegir uno y confirmar tu lugar directamente si
+                  quedan cupos, sin esperar a que te compartan un enlace.
+                </p>
+                <p>
+                  También va a haber partidos privados: se comparten por
+                  invitación y no aparecen en ese listado. Al organizar, vas a
+                  poder elegir entre las dos opciones. Estamos trabajando en
+                  estas funciones.
                 </p>
               </details>
               <details>
